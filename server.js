@@ -5,8 +5,12 @@ const { map: videoTools } = require('video-tools');
 const port = 3003;
 
 app.register(require('@fastify/static'), {
-  root: path.join(__dirname, 'web'),
+  root: path.resolve(__dirname, 'web'),
   prefix: '/web/',
+});
+
+app.get('/', (req, reply) => {
+  reply.redirect('web/');
 });
 
 app.get('/api/v1/health', async (req, reply) => {
