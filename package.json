@@ -1,0 +1,16 @@
+{
+  "name": "video-gallery",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "Kiril Vatev <code@catdad.dev>",
+  "license": "MIT",
+  "dependencies": {
+    "@fastify/static": "^8.0.3",
+    "fastify": "^5.2.1"
+  }
+}
