@@ -1,5 +1,6 @@
 const path = require('node:path');
 const app = require('fastify')({ logger: true });
+const { map: videoTools } = require('video-tools');
 
 const port = 3003;
 
@@ -9,7 +10,9 @@ app.register(require('@fastify/static'), {
 });
 
 app.get('/api/v1/health', async () => {
-  return { healthy: true };
+  const { libVersion, ffmpegVersion, ffprobeVersion } = await videoTools.version({ silent: true });
+
+  return { healthy: true, videoTools: libVersion, ffmpeg: ffmpegVersion, ffprobe: ffprobeVersion };
 });
 
 app.listen({ port }).then(() => {
