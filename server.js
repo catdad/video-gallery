@@ -9,10 +9,24 @@ app.register(require('@fastify/static'), {
   prefix: '/web/',
 });
 
-app.get('/api/v1/health', async () => {
-  const { libVersion, ffmpegVersion, ffprobeVersion } = await videoTools.version({ silent: true });
+app.get('/api/v1/health', async (req, reply) => {
+  try {
+    const { libVersion, ffmpegVersion, ffprobeVersion } = await videoTools.version({ silent: true });
 
-  return { healthy: true, videoTools: libVersion, ffmpeg: ffmpegVersion, ffprobe: ffprobeVersion };
+    return {
+      healthy: true,
+      videoTools: libVersion,
+      ffmpeg: ffmpegVersion,
+      ffprobe: ffprobeVersion
+    };
+  } catch (e) {
+    reply.status(500);
+
+    return {
+      healthy: false,
+      error: 'message' in e ? e.message : e
+    };
+  }
 });
 
 app.listen({ port }).then(() => {
