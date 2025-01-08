@@ -2,7 +2,7 @@ const path = require('node:path');
 const app = require('fastify')({ logger: true });
 const { map: videoTools } = require('video-tools');
 
-const { port, ...opts } = require('./lib/opts.js');
+const { host, port, ...opts } = require('./lib/opts.js');
 
 app.register(require('@fastify/static'), {
   root: path.resolve(__dirname, 'web'),
@@ -33,6 +33,6 @@ app.get('/api/v1/health', async (req, reply) => {
   }
 });
 
-app.listen({ port }).then(() => {
+app.listen({ host, port }).then(() => {
   console.log(`listening at http://localhost:${port}/`);
 });
