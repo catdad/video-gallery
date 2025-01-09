@@ -45,7 +45,7 @@ app.get('/api/v1/health', async (req, reply) => {
 });
 
 app.get('/api/v1/list', async () => {
-  return await list(opts.directory);
+  return await sync({ input: opts.directory, cache: opts.cache });
 });
 
 (async () => {
