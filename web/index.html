@@ -11,7 +11,9 @@
       --background: #111;
       --foreground: #ddd;
     }
-    html, body {
+
+    html,
+    body {
       margin: 0;
       padding: 0;
       color: var(--foreground);
@@ -22,7 +24,12 @@
 </head>
 
 <body>
-  <div>this is the thing</div>
+  <div id="root"></div>
 </body>
+
+<script type="module">
+  import loader from './loader.js';
+  loader();
+</script>
 
 </html>
