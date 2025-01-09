@@ -20,6 +20,13 @@ app.register(staticRouter, {
   decorateReply: false
 });
 
+app.register(staticRouter, {
+  root: path.resolve(process.cwd(), opts.cache),
+  prefix: '/api/v1/thumbnail/',
+  // this can only exist once, so all other register calls need to have false
+  decorateReply: false
+});
+
 app.get('/', (req, reply) => {
   reply.redirect('web/');
 });
