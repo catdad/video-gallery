@@ -54,9 +54,11 @@ app.get('/api/v1/list', async () => {
 
   await app.listen({ host, port });
 
+  const start = Date.now();
   try {
     await sync({ input: opts.directory, cache: opts.cache });
   } catch (e) {
     console.error('initial sync failed', e);
   }
+  console.log(`finished initial cache creation in ${Date.now() - start} ms`);
 })();
