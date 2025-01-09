@@ -6,6 +6,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js --directory workspace/gallery --cache workspace/cache"
   },
+  "nodemonConfig": {
+    "ignore": ["**/workspace/**", "**/web/**"]
+  },
   "keywords": [],
   "author": "Kiril Vatev <code@catdad.dev>",
   "license": "MIT",
