@@ -7,7 +7,7 @@
     "start": "nodemon server.js --directory workspace/gallery --cache workspace/cache"
   },
   "nodemonConfig": {
-    "ignore": ["**/workspace/**", "**/web/**"]
+    "ignore": ["workspace", "web"]
   },
   "keywords": [],
   "author": "Kiril Vatev <code@catdad.dev>",
