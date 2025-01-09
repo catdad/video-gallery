@@ -33,6 +33,4 @@ app.get('/api/v1/health', async (req, reply) => {
   }
 });
 
-app.listen({ host, port }).then(() => {
-  console.log(`listening at http://localhost:${port}/`);
-});
+app.listen({ host, port });
