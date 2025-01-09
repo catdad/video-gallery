@@ -6,6 +6,7 @@ const { globby } = require('globby');
 
 const { host, port, ...opts } = require('./lib/opts.js');
 const { initDir } = require('./lib/init.js');
+const { sync } = require('./lib/sync.js');
 
 app.register(staticRouter, {
   root: path.resolve(__dirname, 'web'),
@@ -44,9 +45,7 @@ app.get('/api/v1/health', async (req, reply) => {
 });
 
 app.get('/api/v1/list', async () => {
-  const list = await globby('**/*.mp4', { cwd: opts.directory });
-
-  return list;
+  return await list(opts.directory);
 });
 
 (async () => {
@@ -54,4 +53,10 @@ app.get('/api/v1/list', async () => {
   await initDir(opts.cache);
 
   await app.listen({ host, port });
+
+  try {
+    await sync({ input: opts.directory, cache: opts.cache });
+  } catch (e) {
+    console.error('initial sync failed', e);
+  }
 })();
