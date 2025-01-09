@@ -1,12 +1,22 @@
 const path = require('node:path');
 const app = require('fastify')({ logger: true });
+const staticRouter = require('@fastify/static');
 const { map: videoTools } = require('video-tools');
+const { globby } = require('globby');
 
 const { host, port, ...opts } = require('./lib/opts.js');
+const { initDir } = require('./lib/init.js');
 
-app.register(require('@fastify/static'), {
+app.register(staticRouter, {
   root: path.resolve(__dirname, 'web'),
   prefix: '/web/',
+});
+
+app.register(staticRouter, {
+  root: path.resolve(process.cwd(), opts.directory),
+  prefix: '/api/v1/video/',
+  // this can only exist once, so all other register calls need to have false
+  decorateReply: false
 });
 
 app.get('/', (req, reply) => {
