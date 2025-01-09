@@ -33,4 +33,15 @@ app.get('/api/v1/health', async (req, reply) => {
   }
 });
 
-app.listen({ host, port });
+app.get('/api/v1/list', async () => {
+  const list = await globby('**/*.mp4', { cwd: opts.directory });
+
+  return list;
+});
+
+(async () => {
+  await initDir(opts.directory);
+  await initDir(opts.cache);
+
+  await app.listen({ host, port });
+})();
