@@ -1,5 +1,9 @@
 import { html } from "../lib/preact.js";
+import { withList } from "./hook-list.js";
+import { List } from "./List.js";
 
-export const App = () => {
-  return html`<div>This is the page</div>`;
+const AppInner = () => {
+  return html`<${List} />`;
 };
+
+export const App = withList(AppInner);
