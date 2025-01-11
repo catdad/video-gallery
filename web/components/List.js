@@ -33,7 +33,6 @@ const Card = ({ thumbnail, video, duration, date }) => {
 
   return html`
     <div style=${{
-      width: `200px`,
       borderRadius: '0.5rem',
       border: `1px solid gray`,
       display: 'inline-block',
@@ -70,21 +69,20 @@ export const List = () => {
   }, {});
 
   return html`
-    <div>
+    <div style="margin: 1rem;">
       <div>last refreshed: ${dateLabel(refreshed.value)}</div>
 
       ${Object.entries(groups).map(([key, list]) => {
         return html`
           <div>
-            <div style="text-align: center; font-weight: bold">----- ${key} -----</div>
+            <div style="text-align: center; font-weight: bold; margin: 1rem auto 0.5rem;">----- ${key} -----</div>
 
             <div style=${{
-              display: 'flex',
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              justifyContent: 'center',
-              margin: '1rem auto',
-              gap: '1rem'
+              display: 'grid',
+              gap: '1rem',
+              gridTemplateColumns: `repeat(auto-fill, minmax(min(100%/2, max(120px, 100%/5)), 1fr))`,
+              maxWidth: '1000px',
+              margin: 'auto'
             }}>
               ${list.map(item => html`<${Card} ...${item} />`)}
             </div>
