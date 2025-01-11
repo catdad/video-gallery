@@ -4,13 +4,20 @@ import { withList } from "./hook-list.js";
 import { List } from "./List.js";
 
 const AppInner = () => {
-  const { getRoute, getRouteData } = useRoute();
+  const { getRoute, getRouteData, back } = useRoute();
 
   switch(getRoute()) {
     case routes.list:
       return html`<${List} />`;
     case routes.video:
-      return html`<div>play a video: ${JSON.stringify(getRouteData())}</div>`;
+      // TODO make an actual video player component
+      return html`<div>
+        <div>play a video: ${JSON.stringify(getRouteData())}</div>
+        <video controls style="width: 100%">
+          <source src="${getRouteData().video}" type="video/mp4" />
+        </video>
+        <button onClick=${() => back()}>Close</button>
+      </div>`;
   }
 
   // TODO this should probably load /web/
