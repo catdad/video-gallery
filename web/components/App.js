@@ -13,6 +13,7 @@ const AppInner = () => {
       return html`<div>play a video</div>`;
   }
 
+  // TODO this should probably load /web/
   return html`<div>wat?</div>`;
 };
 

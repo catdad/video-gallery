@@ -28,8 +28,13 @@ export const withRouter = Component => ({ children, ...props }) => {
     };
   });
 
+  const api = {
+    route,
+    back: () => history.back()
+  };
+
   return html`
-    <${RouterContext.Provider} value=${{ route }}>
+    <${RouterContext.Provider} value=${api}>
       <${Component} ...${props}>${children}<//>
     <//>
   `;
