@@ -20,19 +20,25 @@ export const withList = Component => ({ children, ...props }) => {
       const data = await res.json();
 
       batch(() => {
+        refreshed.value = new Date();
+        loaded.value = true;
+
         list.value = data.map(d => ({
           ...d,
           thumbnail: urls.resource(d.thumbnail),
           video:urls.resource(d.video),
-          data: new Date(d.date || '1970-01-01'),
-        }));
-        refreshed.value = new Date();
-        loaded.value = true;
+          date: new Date(d.date || '1970-01-01'),
+          // TODO use a formatting library for this
+          duration: `${Math.round(d.duration)}s`
+        })).sort((a, b) => b.date - a.date);
       });
     }).catch(err => {
+      // TODO handle this error
       console.error('failed to laod list', err);
     });
   }, []);
+
+  // TODO show loading spinner until we have data
 
   const data = {
     refreshed, list
