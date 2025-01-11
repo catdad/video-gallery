@@ -29,7 +29,7 @@ const groupKeys = {
 };
 
 const Card = ({ thumbnail, video, duration, date }) => {
-  const { route } = useRoute();
+  const { navigate } = useRoute();
 
   return html`
     <div style=${{
@@ -39,7 +39,7 @@ const Card = ({ thumbnail, video, duration, date }) => {
       display: 'inline-block',
       overflow: 'hidden'
     }} onClick=${() => {
-      route.value = routes.video;
+      navigate(routes.video, { video });
     }}>
       <img src="${thumbnail}" loading="lazy" style="width: 100%" />
       <div style=${{
@@ -74,8 +74,6 @@ export const List = () => {
       <div>last refreshed: ${dateLabel(refreshed.value)}</div>
 
       ${Object.entries(groups).map(([key, list]) => {
-        console.log(key, list);
-
         return html`
           <div>
             <div style="text-align: center; font-weight: bold">----- ${key} -----</div>

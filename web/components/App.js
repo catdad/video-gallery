@@ -4,13 +4,13 @@ import { withList } from "./hook-list.js";
 import { List } from "./List.js";
 
 const AppInner = () => {
-  const { route } = useRoute();
+  const { getRoute, getRouteData } = useRoute();
 
-  switch(route.value) {
+  switch(getRoute()) {
     case routes.list:
       return html`<${List} />`;
     case routes.video:
-      return html`<div>play a video</div>`;
+      return html`<div>play a video: ${JSON.stringify(getRouteData())}</div>`;
   }
 
   // TODO this should probably load /web/
