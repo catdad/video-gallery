@@ -13,7 +13,7 @@ const AppInner = () => {
       // TODO make an actual video player component
       return html`<div>
         <div>play a video: ${JSON.stringify(getRouteData())}</div>
-        <video controls style="width: 100%">
+        <video autoplay controls style="width: 100%">
           <source src="${getRouteData().video}" type="video/mp4" />
         </video>
         <button onClick=${() => back()}>Close</button>
