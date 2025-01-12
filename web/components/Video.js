@@ -5,12 +5,19 @@ export const Video = () => {
   const { getRouteData, back } = useRoute();
 
   return html`<div style=${{
+    position: 'sticky',
+    top: 0,
+    left: 0,
+    height: '100vh',
+    width: '100%',
+    zIndex: 3,
+    overflow: 'hidden',
+    background: 'var(--background)',
     display: 'flex',
     flexDirection: 'column',
-    minHeight: '100vh'
   }}>
     <div>play a video: ${JSON.stringify(getRouteData())}</div>
-    <video autoplay controls style="width: 100%; max-height: 80vh;">
+    <video autoplay controls style="width: 100%; max-height: 80vmin;">
       <source src="${getRouteData().video}" type="video/mp4" />
     </video>
     <div style=${{

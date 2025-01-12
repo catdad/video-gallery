@@ -11,7 +11,11 @@ const AppInner = () => {
     case routes.list:
       return html`<${List} />`;
     case routes.video:
-      return html`<${Video} />`;
+      // keep the list rendered, so that scroll position is maintained
+      return html`
+        <${Video} />
+        <${List} />
+      `;
   }
 
   // TODO this should probably load /web/

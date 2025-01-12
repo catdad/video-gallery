@@ -70,7 +70,7 @@ export const List = () => {
   }, {});
 
   return html`
-    <div style="margin: 1rem auto; max-width: 1000px;">
+    <div style="margin: 1rem auto; max-width: 1000px; padding: 0 1rem;">
       <div>last refreshed: ${dateLabel(refreshed.value)}</div>
 
       ${Object.entries(groups).map(([key, list]) => {
