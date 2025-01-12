@@ -17,7 +17,7 @@
     "fastify": "^5.2.1",
     "globby": "^14.0.2",
     "lodash": "^4.17.21",
-    "video-tools": "https://github.com/catdad/video-tools/tarball/3743c044b9415e59029719b125e301a301f1e592",
+    "video-tools": "https://github.com/catdad/video-tools/tarball/f818863da62b1700779c9ddb184883c0868c7299",
     "yargs": "^17.7.2"
   },
   "devDependencies": {
