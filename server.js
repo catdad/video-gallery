@@ -2,7 +2,6 @@ const path = require('node:path');
 const app = require('fastify')({ logger: true });
 const staticRouter = require('@fastify/static');
 const { map: videoTools } = require('video-tools');
-const { globby } = require('globby');
 
 const { host, port, ...opts } = require('./lib/opts.js');
 const { initDir } = require('./lib/init.js');
