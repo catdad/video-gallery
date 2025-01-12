@@ -26,7 +26,7 @@ export const withList = Component => ({ children, ...props }) => {
         list.value = data.map(d => ({
           ...d,
           thumbnail: urls.resource(d.thumbnail),
-          video:urls.resource(d.video),
+          video: urls.resource(d.video),
           date: new Date(d.date || '1970-01-01'),
           // TODO use a formatting library for this
           duration: `${Math.round(d.duration)}s`
@@ -38,7 +38,14 @@ export const withList = Component => ({ children, ...props }) => {
     });
   }, []);
 
-  // TODO show loading spinner until we have data
+  if (loaded.value === false) {
+    return html`<div style=${{
+      height: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}>Loading...</div>`;
+  }
 
   const data = {
     refreshed, list
