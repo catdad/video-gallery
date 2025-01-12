@@ -79,7 +79,7 @@ export const List = () => {
             <div style=${{
               textAlign: 'center',
               fontWeight: 'bold',
-              margin: '1.5rem auto 0.75rem',
+              margin: '2rem auto 1rem',
               position: 'relative'
             }}>
               <div style=${{
