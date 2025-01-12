@@ -34,7 +34,8 @@ const Card = ({ thumbnail, video, duration, date }) => {
   return html`
     <div style=${{
       borderRadius: '0.5rem',
-      border: `1px solid gray`,
+      border: `1px solid var(--accent)`,
+      background: 'var(--bg-card)',
       display: 'inline-block',
       overflow: 'hidden'
     }} onClick=${() => {
