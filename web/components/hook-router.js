@@ -1,35 +1,32 @@
 import {
-  html, batch, effect,
+  html, effect,
   createContext, useContext, useSignal
 } from "../lib/preact.js";
 
-export const routes = {
-  list: '',
-  video: '#video'
-}
+const RouterContext = createContext({});
 
-const RouterContext = createContext({
-  route: routes.list
-});
+const getHashData = (hash = window.location.hash) => {
+  if (/#video/.test(hash)) {
+    const video = hash.replace(/^#video\//, '');
+    return { route: 'video', hash, data: { video }};
+  }
+
+  return { route: 'list', hash, data: {} };
+};
 
 export const withRouter = Component => ({ children, ...props }) => {
-  const route = useSignal(routes.list);
-  const routeData = useSignal(null);
+  const routeData = useSignal(getHashData());
 
   effect(() => {
-    const routeName = (Object.entries(routes).find(([key, value]) => value === route.value) || ['list'])[0];
+    const { hash } = routeData.value;
 
-    history.pushState({
-      name: routeName,
-      route: route.value,
-      data: routeData.value
-    }, '', route.value);
+    // only push to history if we are at a new url
+    if (window.location.hash !== hash) {
+      history.pushState({}, '', hash);
+    }
 
-    const handler = (ev) => {
-      batch(() => {
-        route.value = routes[ev.state.name] || routes['list'];
-        routeData.value = ev.state.data || {};
-      });
+    const handler = () => {
+      routeData.value = getHashData();
     };
 
     window.addEventListener('popstate', handler);
@@ -39,14 +36,25 @@ export const withRouter = Component => ({ children, ...props }) => {
     };
   });
 
+  const goToList = () => {
+    routeData.value = getHashData('');
+  };
+
+  const goToVideo = (video) => {
+    routeData.value = getHashData(`#video/${video}`);
+  };
+
   const api = {
-    getRoute: () => route.value,
     getRouteData: () => routeData.value,
-    navigate: (r, data) => void batch(() => {
-      route.value = r;
-      routeData.value = data;
-    }),
-    back: () => history.back()
+    goToVideo,
+    goToList,
+    back: () => {
+      if (history.length > 1) {
+        history.back()
+      } else {
+        goToList();
+      }
+    }
   };
 
   return html`

@@ -1,6 +1,6 @@
 import { html } from "../lib/preact.js";
 import { useList } from "./hook-list.js";
-import { routes, useRoute } from "./hook-router.js";
+import { useRoute } from "./hook-router.js";
 
 const dateLabel = date => new Intl.DateTimeFormat(navigator.language, {
   weekday: 'short',
@@ -29,7 +29,7 @@ const groupKeys = {
 };
 
 const Card = ({ thumbnail, video, duration, date }) => {
-  const { navigate } = useRoute();
+  const { goToVideo } = useRoute();
 
   return html`
     <div style=${{
@@ -39,7 +39,7 @@ const Card = ({ thumbnail, video, duration, date }) => {
       display: 'inline-block',
       overflow: 'hidden'
     }} onClick=${() => {
-      navigate(routes.video, { video });
+      goToVideo(video);
     }}>
       <img src="${thumbnail}" loading="lazy" style="width: 100%" />
       <div style=${{

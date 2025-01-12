@@ -18,7 +18,7 @@ export const Video = () => {
   }}>
     <div>play a video: ${JSON.stringify(getRouteData())}</div>
     <video autoplay controls style="width: 100%; max-height: 80vmin;">
-      <source src="${getRouteData().video}" type="video/mp4" />
+      <source src="${getRouteData().data.video}" type="video/mp4" />
     </video>
     <div style=${{
       flexGrow: 1,
