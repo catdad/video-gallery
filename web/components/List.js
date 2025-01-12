@@ -70,20 +70,40 @@ export const List = () => {
   }, {});
 
   return html`
-    <div style="margin: 1rem;">
+    <div style="margin: 1rem auto; max-width: 1000px;">
       <div>last refreshed: ${dateLabel(refreshed.value)}</div>
 
       ${Object.entries(groups).map(([key, list]) => {
         return html`
           <div>
-            <div style="text-align: center; font-weight: bold; margin: 1rem auto 0.5rem;">----- ${key} -----</div>
+            <div style=${{
+              textAlign: 'center',
+              fontWeight: 'bold',
+              margin: '1.5rem auto 0.75rem',
+              position: 'relative'
+            }}>
+              <div style=${{
+                position: 'absolute',
+                top: '50%',
+                borderTop: '1px solid white',
+                opacity: 0.2,
+                width: '100%',
+                zIndex: 1
+              }} />
+              <span style=${{
+                padding: '0.25rem 1rem',
+                border: '1px solid var(--accent)',
+                borderRadius: '1.5rem',
+                background: 'var(--bg-card)',
+                position: 'relative',
+                zIndex: 2
+              }}>${key}</span>
+            </div>
 
             <div style=${{
               display: 'grid',
-              gap: '1rem',
+              gap: '0.75rem',
               gridTemplateColumns: `repeat(auto-fill, minmax(min(100%/2, max(120px, 100%/5)), 1fr))`,
-              maxWidth: '1000px',
-              margin: 'auto'
             }}>
               ${list.map(item => html`<${Card} ...${item} />`)}
             </div>
