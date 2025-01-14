@@ -4,7 +4,7 @@ RUN mkdir /input
 RUN mkdir /cache
 WORKDIR /app
 
-COPY * ./
+COPY . /app
 RUN npm install --production && npm cache clean --force
 
 CMD [
