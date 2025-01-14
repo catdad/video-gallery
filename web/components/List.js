@@ -57,7 +57,7 @@ const Card = ({ thumbnail, video, duration, date }) => {
 };
 
 export const List = () => {
-  const { list, refreshed } = useList();
+  const { list } = useList();
   const group = 'hour';
 
   const groups = list.value.reduce((memo, item) => {
@@ -71,8 +71,6 @@ export const List = () => {
 
   return html`
     <div style="margin: 1rem auto; max-width: 1000px; padding: 0 1rem;">
-      <div>last refreshed: ${dateLabel(refreshed.value)}</div>
-
       ${Object.entries(groups).map(([key, list]) => {
         return html`
           <div>
