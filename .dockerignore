@@ -1,0 +1,7 @@
+*
+!LICENSE
+!server.js
+!package.json
+!package_lock.json
+!web/
+!lib/
