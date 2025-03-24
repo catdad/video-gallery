@@ -7,7 +7,10 @@
     "start": "nodemon server.js --directory workspace/gallery --cache workspace/cache"
   },
   "nodemonConfig": {
-    "ignore": ["workspace", "web"]
+    "ignore": [
+      "workspace",
+      "web"
+    ]
   },
   "keywords": [],
   "author": "Kiril Vatev <code@catdad.dev>",
@@ -17,6 +20,7 @@
     "fastify": "^5.2.1",
     "globby": "^14.0.2",
     "lodash": "^4.17.21",
+    "quick-lru": "^7.0.0",
     "video-tools": "https://github.com/catdad/video-tools/tarball/4760979439983068c652b8ebedfaf602dabf32ed",
     "yargs": "^17.7.2"
   },
