@@ -51,7 +51,7 @@ app.get('/api/v1/health', async (req, reply) => {
 });
 
 app.get('/api/v1/list', async () => {
-  return await sync({ input: opts.directory, cache: opts.cache });
+  return await sync();
 });
 
 (async () => {
@@ -62,7 +62,7 @@ app.get('/api/v1/list', async () => {
 
   const start = Date.now();
   try {
-    await sync({ input: opts.directory, cache: opts.cache });
+    await sync();
   } catch (e) {
     console.error('initial sync failed', e);
   }
