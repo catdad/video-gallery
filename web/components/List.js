@@ -1,5 +1,5 @@
-import { html } from "../lib/preact.js";
-import { useList } from "./hook-list.js";
+import { html, useSignal, useState } from "../lib/preact.js";
+import { useList, format } from "./hook-list.js";
 import { useRoute } from "./hook-router.js";
 
 const dateLabel = date => new Intl.DateTimeFormat(navigator.language, {
@@ -57,7 +57,7 @@ const Card = ({ thumbnail, video, duration, date }) => {
 };
 
 export const List = () => {
-  const { list } = useList();
+  const { list, setOffset } = useList(0);
   const group = 'hour';
 
   const groups = list.value.reduce((memo, item) => {
@@ -71,8 +71,18 @@ export const List = () => {
 
   return html`
     <div style="margin: 1rem auto; max-width: 1000px; padding: 0 1rem;">
-      ${Object.entries(groups).map(([key, list]) => {
-        return html`
+      <div style="display: flex; margin: 1rem 0; flex-direction: row; justify-content: center; gap: 0.25rem;">
+        <button onClick=${() => { setOffset(0); }}>${format(0)}</button>
+        <button onClick=${() => { setOffset(-1); }}>${format(-1)}</button>
+        <button onClick=${() => { setOffset(-2); }}>${format(-2)}</button>
+        <button onClick=${() => { setOffset(-3); }}>${format(-3)}</button>
+        <button onClick=${() => { setOffset(-4); }}>${format(-4)}</button>
+        <button onClick=${() => { setOffset(-5); }}>${format(-5)}</button>
+        <button onClick=${() => { setOffset(null); }}>all</button>
+      </div>
+      ${list.value.length === 0 ?
+        html`<div style="text-align: center">There are no recordings in this view.</div>` :
+        Object.entries(groups).map(([key, list]) => html`
           <div>
             <div style=${{
               textAlign: 'center',
@@ -106,8 +116,8 @@ export const List = () => {
               ${list.map(item => html`<${Card} ...${item} />`)}
             </div>
           </div>
-        `;
-      })}
+        `)
+      }
     <//>
   `;
 };

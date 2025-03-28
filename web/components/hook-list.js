@@ -1,18 +1,33 @@
 import { html, batch, createContext, useContext, useEffect, useSignal } from "../lib/preact.js";
 import * as urls from './urls.js';
 
+const formatDateFilter = date => [
+  new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date),
+  new Intl.DateTimeFormat('en', { month: '2-digit' }).format(date),
+  new Intl.DateTimeFormat('en', { day: '2-digit' }).format(date),
+].join('-');
+
+export const format = (offset) => {
+  const today = new Date();
+  today.setDate(today.getDate() + offset);
+
+  return formatDateFilter(today);
+};
+
 const ListContext = createContext({
-  refreshed: new Date(),
-  list: []
+  list: [],
+  setOffset: () => {}
 });
 
 export const withList = Component => ({ children, ...props }) => {
-  const refreshed = useSignal(new Date());
+  const offset = useSignal(0);
   const list = useSignal([]);
   const loaded = useSignal(false);
 
   useEffect(() => {
-    fetch(urls.list).then(async res => {
+    const url = `${urls.list}${offset.peek() === null ? '' : `?date=${format(offset.peek())}`}`;
+
+    fetch(url).then(async res => {
       if (!res.ok) {
         throw new Error(`GET list ${res.status}`);
       }
@@ -20,7 +35,6 @@ export const withList = Component => ({ children, ...props }) => {
       const data = await res.json();
 
       batch(() => {
-        refreshed.value = new Date();
         loaded.value = true;
 
         list.value = data.map(d => ({
@@ -36,7 +50,7 @@ export const withList = Component => ({ children, ...props }) => {
       // TODO handle this error
       console.error('failed to laod list', err);
     });
-  }, []);
+  }, [offset.value]);
 
   if (loaded.value === false) {
     return html`<div style=${{
@@ -48,7 +62,7 @@ export const withList = Component => ({ children, ...props }) => {
   }
 
   const data = {
-    refreshed, list
+    list, loaded, offset
   };
 
   return html`
@@ -58,4 +72,18 @@ export const withList = Component => ({ children, ...props }) => {
   `;
 };
 
-export const useList = () => useContext(ListContext);
+export const useList = () => {
+  const { list, loaded, offset } = useContext(ListContext);
+
+  return {
+    list,
+    setOffset: offsetDays => {
+      if (offset.peek() !== offsetDays) {
+        batch(() => {
+          loaded.value = false;
+          offset.value = offsetDays;
+        });
+      }
+    }
+  };
+};
