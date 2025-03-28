@@ -50,8 +50,8 @@ app.get('/api/v1/health', async (req, reply) => {
   }
 });
 
-app.get('/api/v1/list', async () => {
-  return await sync();
+app.get('/api/v1/list', async (req) => {
+  return await sync({ date: req.query.date || null });
 });
 
 (async () => {
