@@ -77,6 +77,9 @@ export const useList = () => {
 
   return {
     list,
+    get offset() {
+      return offset.value;
+    },
     setOffset: offsetDays => {
       if (offset.peek() !== offsetDays) {
         batch(() => {

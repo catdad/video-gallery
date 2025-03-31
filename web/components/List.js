@@ -1,6 +1,7 @@
-import { html, useSignal, useState } from "../lib/preact.js";
+import { html } from "../lib/preact.js";
 import { useList, format } from "./hook-list.js";
 import { useRoute } from "./hook-router.js";
+import { Toggle } from './Toggle.js';
 
 const dateLabel = date => new Intl.DateTimeFormat(navigator.language, {
   weekday: 'short',
@@ -57,7 +58,7 @@ const Card = ({ thumbnail, video, duration, date }) => {
 };
 
 export const List = () => {
-  const { list, setOffset } = useList(0);
+  const { list, offset, setOffset } = useList(0);
   const group = 'hour';
 
   const groups = list.value.reduce((memo, item) => {
@@ -71,15 +72,19 @@ export const List = () => {
 
   return html`
     <div style="margin: 1rem auto; max-width: 1000px; padding: 0 1rem;">
-      <div style="display: flex; margin: 1rem 0; flex-direction: row; justify-content: center; gap: 0.25rem;">
-        <button onClick=${() => { setOffset(0); }}>${format(0)}</button>
-        <button onClick=${() => { setOffset(-1); }}>${format(-1)}</button>
-        <button onClick=${() => { setOffset(-2); }}>${format(-2)}</button>
-        <button onClick=${() => { setOffset(-3); }}>${format(-3)}</button>
-        <button onClick=${() => { setOffset(-4); }}>${format(-4)}</button>
-        <button onClick=${() => { setOffset(-5); }}>${format(-5)}</button>
-        <button onClick=${() => { setOffset(null); }}>all</button>
-      </div>
+      <${Toggle}
+        options=${[
+          { value: 0, label: format(0) },
+          { value: -1, label: format(-1) },
+          { value: -2, label: format(-2) },
+          { value: -3, label: format(-3) },
+          { value: -4, label: format(-4) },
+          { value: -5, label: format(-5) },
+          { value: null, label: 'all' },
+        ]}
+        value=${offset}
+        onChange=${(value) => setOffset(value)}
+      />
       ${list.value.length === 0 ?
         html`<div style="text-align: center">There are no recordings in this view.</div>` :
         Object.entries(groups).map(([key, list]) => html`
