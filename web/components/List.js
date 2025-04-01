@@ -3,6 +3,15 @@ import { useList, format } from "./hook-list.js";
 import { useRoute } from "./hook-router.js";
 import { Toggle } from './Toggle.js';
 
+const humanize = (offset) => {
+  const date = new Date(format(offset));
+
+  const month = new Intl.DateTimeFormat('en', { month: 'short', timeZone: 'UTC' }).format(date);
+  const day = new Intl.DateTimeFormat('en', { day: 'numeric', timeZone: 'UTC' }).format(date);
+
+  return html`<span>${month} ${day}</span>`;
+};
+
 const dateLabel = date => new Intl.DateTimeFormat(navigator.language, {
   weekday: 'short',
   month: 'short',
@@ -74,12 +83,12 @@ export const List = () => {
     <div style="margin: 1rem auto; max-width: 1000px; padding: 0 1rem;">
       <${Toggle}
         options=${[
-          { value: 0, label: format(0) },
-          { value: -1, label: format(-1) },
-          { value: -2, label: format(-2) },
-          { value: -3, label: format(-3) },
-          { value: -4, label: format(-4) },
-          { value: -5, label: format(-5) },
+          { value: 0, label: humanize(0) },
+          { value: -1, label: humanize(-1) },
+          { value: -2, label: humanize(-2) },
+          { value: -3, label: humanize(-3) },
+          { value: -4, label: humanize(-4) },
+          { value: -5, label: humanize(-5) },
           { value: null, label: 'all' },
         ]}
         value=${offset}
