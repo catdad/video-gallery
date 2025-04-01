@@ -98,8 +98,7 @@ export const List = () => {
               <div style=${{
                 position: 'absolute',
                 top: '50%',
-                borderTop: '1px solid white',
-                opacity: 0.2,
+                borderTop: '1px solid var(--accent-light)',
                 width: '100%',
                 zIndex: 1
               }} />
