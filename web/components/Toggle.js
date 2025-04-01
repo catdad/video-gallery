@@ -2,16 +2,18 @@ import { html } from "../lib/preact.js";
 
 const merge = (...list) => list.reduce((memo, l) => ({ ...memo, ...l}));
 
+const border = '2px solid var(--bg-card)';
+
 const buttonStyle = {
   background: 'none',
-  border: '1px solid #888',
+  border,
   borderLeft: 'none',
   color: 'white',
-  padding: '0.5rem'
+  padding: '0.5rem',
 };
 
 const buttonFirst = {
-  borderLeft: '1px solid #888',
+  borderLeft: border,
   borderRadius: '0.5rem 0 0 0.5rem',
 };
 
@@ -20,8 +22,7 @@ const buttonLast = {
 };
 
 const buttonSelected = {
-  background: '#888',
-  color: '#333'
+  background: 'var(--bg-card)',
 };
 
 export const Toggle = ({ options, onChange, value }) => {
