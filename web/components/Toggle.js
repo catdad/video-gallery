@@ -1,6 +1,6 @@
 import { html } from "../lib/preact.js";
 
-const merge = (...list) => list.reduce((memo, l) => ({ ...memo, ...l}));
+const merge = (...list) => list.reduce((memo, l) => ({ ...memo, ...l }));
 
 const border = '2px solid var(--bg-card)';
 
