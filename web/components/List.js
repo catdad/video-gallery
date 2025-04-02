@@ -1,6 +1,16 @@
 import { html } from "../lib/preact.js";
-import { useList } from "./hook-list.js";
+import { useList, format } from "./hook-list.js";
 import { useRoute } from "./hook-router.js";
+import { Toggle } from './Toggle.js';
+
+const humanize = (offset) => {
+  const date = new Date(format(offset));
+
+  const month = new Intl.DateTimeFormat('en', { month: 'short', timeZone: 'UTC' }).format(date);
+  const day = new Intl.DateTimeFormat('en', { day: 'numeric', timeZone: 'UTC' }).format(date);
+
+  return html`<span>${month} ${day}</span>`;
+};
 
 const dateLabel = date => new Intl.DateTimeFormat(navigator.language, {
   weekday: 'short',
@@ -57,7 +67,7 @@ const Card = ({ thumbnail, video, duration, date }) => {
 };
 
 export const List = () => {
-  const { list } = useList();
+  const { list, offset, setOffset } = useList(0);
   const group = 'hour';
 
   const groups = list.value.reduce((memo, item) => {
@@ -71,8 +81,22 @@ export const List = () => {
 
   return html`
     <div style="margin: 1rem auto; max-width: 1000px; padding: 0 1rem;">
-      ${Object.entries(groups).map(([key, list]) => {
-        return html`
+      <${Toggle}
+        options=${[
+          { value: 0, label: humanize(0) },
+          { value: -1, label: humanize(-1) },
+          { value: -2, label: humanize(-2) },
+          { value: -3, label: humanize(-3) },
+          { value: -4, label: humanize(-4) },
+          { value: -5, label: humanize(-5) },
+          { value: null, label: 'all' },
+        ]}
+        value=${offset}
+        onChange=${(value) => setOffset(value)}
+      />
+      ${list.value.length === 0 ?
+        html`<div style="text-align: center">There are no recordings in this view.</div>` :
+        Object.entries(groups).map(([key, list]) => html`
           <div>
             <div style=${{
               textAlign: 'center',
@@ -83,8 +107,7 @@ export const List = () => {
               <div style=${{
                 position: 'absolute',
                 top: '50%',
-                borderTop: '1px solid white',
-                opacity: 0.2,
+                borderTop: '1px solid var(--accent-light)',
                 width: '100%',
                 zIndex: 1
               }} />
@@ -106,8 +129,8 @@ export const List = () => {
               ${list.map(item => html`<${Card} ...${item} />`)}
             </div>
           </div>
-        `;
-      })}
+        `)
+      }
     <//>
   `;
 };
