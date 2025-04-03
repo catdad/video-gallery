@@ -23,8 +23,9 @@ export const withList = Component => ({ children, ...props }) => {
   const offset = useSignal(0);
   const list = useSignal([]);
   const loaded = useSignal(false);
+  const timeout = useSignal();
 
-  useEffect(() => {
+  useEffect(function performSync() {
     const url = `${urls.list}${offset.peek() === null ? '' : `?date=${format(offset.peek())}`}`;
 
     fetch(url).then(async res => {
@@ -50,6 +51,16 @@ export const withList = Component => ({ children, ...props }) => {
       // TODO handle this error
       console.error('failed to laod list', err);
     });
+
+    clearTimeout(timeout.value);
+
+    timeout.value = setTimeout(() => {
+      performSync();
+    }, 60 * 1000);
+
+    return () => {
+      clearTimeout(timeout.value);
+    }
   }, [offset.value]);
 
   if (loaded.value === false) {
