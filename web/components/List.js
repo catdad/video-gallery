@@ -97,7 +97,7 @@ export const List = () => {
       ${list.value.length === 0 ?
         html`<div style="text-align: center">There are no recordings in this view.</div>` :
         Object.entries(groups).map(([key, list]) => html`
-          <div>
+          <div key=${key}>
             <div style=${{
               textAlign: 'center',
               fontWeight: 'bold',
@@ -126,7 +126,7 @@ export const List = () => {
               gap: '0.75rem',
               gridTemplateColumns: `repeat(auto-fill, minmax(min(100%/2, max(120px, 100%/5)), 1fr))`,
             }}>
-              ${list.map(item => html`<${Card} ...${item} />`)}
+              ${list.map(item => html`<${Card} key=${item.video} ...${item} />`)}
             </div>
           </div>
         `)
