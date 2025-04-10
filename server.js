@@ -1,5 +1,5 @@
 const path = require('node:path');
-const { host, port, ...opts } = require('./lib/opts.js');
+const { host, port, syncPeriod, ...opts } = require('./lib/opts.js');
 
 const app = require('fastify')({ logger: opts.debug });
 const staticRouter = require('@fastify/static');
@@ -67,5 +67,17 @@ app.get('/api/v1/list', async (req) => {
   } catch (e) {
     console.error('initial sync failed', e);
   }
-  console.log(`finished initial cache creation in ${Date.now() - start} ms`);
+  console.log(`finished initial cache sync in ${Date.now() - start}ms`);
+
+  (function periodicSync() {
+    setTimeout(() => {
+      const start = Date.now();
+      sync().catch(err => {
+        console.error('periodic sync failed', err);
+      }).finally(() => {
+        console.log(`finished periodic cache sync in ${Date.now() - start}ms`);
+        periodicSync();
+      });
+    }, 1000 * 60 * syncPeriod);
+  })();
 })();
