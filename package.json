@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js --directory workspace/gallery --cache workspace/cache"
+    "start": "nodemon server.js --directory workspace/gallery --cache workspace/cache --debug"
   },
   "nodemonConfig": {
     "ignore": [
