@@ -1,6 +1,9 @@
 import { html, useEffect, useState } from "../lib/preact.js";
 import { useRoute } from "./hook-router.js";
 
+const agent = navigator.userAgent.toLowerCase();
+const iOSHomeAssistant =  /iphone|ipad|macintosh/.test(agent) && /homeassistant/.test(agent);
+
 const VideoBlob = ({ url }) => {
   const [blobUrl, setBlobUrl] = useState();
 
@@ -48,7 +51,7 @@ const VideoEmbed = ({ url }) => {
 
 export const Video = () => {
   const { getRouteData, back } = useRoute();
-  const [altMode, setAltMode] = useState(false);
+  const [altMode, setAltMode] = useState(iOSHomeAssistant);
 
   return html`<div style=${{
     position: 'fixed',
@@ -79,7 +82,7 @@ export const Video = () => {
       justifyContent: 'center'
     }}>
       <div style="margin: auto; display: flex; gap: 0.5rem;">
-        <button onClick=${() => setAltMode(!altMode)}>Alt mode: ${`${altMode}`}</button>
+        <button onClick=${() => setAltMode(!altMode)}>Mode: ${`${altMode ? 'buffer' : 'stream'}`}</button>
         <button onClick=${() => back()}>Close</button>
       </div>
     </div>
