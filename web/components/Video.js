@@ -1,8 +1,54 @@
-import { html } from "../lib/preact.js";
+import { html, useEffect, useState } from "../lib/preact.js";
 import { useRoute } from "./hook-router.js";
+
+const VideoBlob = ({ url }) => {
+  const [blobUrl, setBlobUrl] = useState();
+
+  useEffect(() => {
+    let mounted = true;
+    let blobUrl;
+
+    fetch(url).then(res => {
+      if (!res.ok) {
+        throw new Error(`failed to load video: ${res.status} ${res.statusText}`);
+      }
+
+      return res.blob();
+    }).then(blob => {
+      if (mounted) {
+        blobUrl = URL.createObjectURL(blob);
+        setBlobUrl(blobUrl);
+      }
+    }).catch(err => {
+      console.error('failed to load video blob', err);
+    });
+
+    return () => {
+      mounted = false;
+
+      if (blobUrl) {
+        URL.revokeObjectURL(blobUrl);
+      }
+    };
+  }, [url]);
+
+  if (!blobUrl) {
+    return html`<div>Loading video...</div>`;
+  }
+
+  return html`<${VideoEmbed} url=${blobUrl} />`;
+};
+
+const VideoEmbed = ({ url }) => {
+  return html`
+  <video preload="metadata" autoplay muted controls playsinline style="width: 100%; max-height: 80vmin;">
+    <source src="${url}" type="video/mp4" />
+  </video>`;
+};
 
 export const Video = () => {
   const { getRouteData, back } = useRoute();
+  const [altMode, setAltMode] = useState(false);
 
   return html`<div style=${{
     position: 'fixed',
@@ -23,15 +69,17 @@ export const Video = () => {
       <div>play a video: ${JSON.stringify(getRouteData())}</div>
       <div>${navigator.userAgent}</div>
     </div>
-    <video preload="metadata" autoplay muted controls playsinline style="width: 100%; max-height: 80vmin;">
-      <source src="${getRouteData().data.video}" type="video/mp4" />
-    </video>
+    ${altMode
+      ? html`<${VideoBlob} url=${getRouteData().data.video} />`
+      : html`<${VideoEmbed} url=${getRouteData().data.video} />`
+    }
     <div style=${{
       flexGrow: 1,
       display: 'flex',
       justifyContent: 'center'
     }}>
-      <div style="margin: auto;">
+      <div style="margin: auto; display: flex; gap: 0.5rem;">
+        <button onClick=${() => setAltMode(!altMode)}>Alt mode: ${`${altMode}`}</button>
         <button onClick=${() => back()}>Close</button>
       </div>
     </div>
