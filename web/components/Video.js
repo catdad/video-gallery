@@ -5,7 +5,7 @@ export const Video = () => {
   const { getRouteData, back } = useRoute();
 
   return html`<div style=${{
-    position: 'sticky',
+    position: 'fixed',
     top: 0,
     left: 0,
     height: '100vh',
@@ -16,7 +16,10 @@ export const Video = () => {
     display: 'flex',
     flexDirection: 'column',
   }}>
-    <div>
+    <div style=${{
+      fontFamily: 'monospace',
+      fontSize: '0.6rem',
+    }}>
       <div>play a video: ${JSON.stringify(getRouteData())}</div>
       <div>${navigator.userAgent}</div>
     </div>
