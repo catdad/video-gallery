@@ -16,8 +16,11 @@ export const Video = () => {
     display: 'flex',
     flexDirection: 'column',
   }}>
-    <div>play a video: ${JSON.stringify(getRouteData())}</div>
-    <video autoplay controls style="width: 100%; max-height: 80vmin;">
+    <div>
+      <div>play a video: ${JSON.stringify(getRouteData())}</div>
+      <div>${navigator.userAgent}</div>
+    </div>
+    <video preload="metadata" autoplay muted controls playsinline style="width: 100%; max-height: 80vmin;">
       <source src="${getRouteData().data.video}" type="video/mp4" />
     </video>
     <div style=${{
