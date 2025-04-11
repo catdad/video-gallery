@@ -1,4 +1,5 @@
 import { html, useEffect, useState } from "../lib/preact.js";
+import { usePersistedSignal } from "../lib/persisted-signal.js";
 import { useRoute } from "./hook-router.js";
 
 const agent = navigator.userAgent.toLowerCase();
@@ -52,7 +53,7 @@ const VideoEmbed = ({ url }) => {
 
 export const Video = () => {
   const { getRouteData, back } = useRoute();
-  const [altMode, setAltMode] = useState(iOSHomeAssistant);
+  const videoMode = usePersistedSignal('video-mode', iOSHomeAssistant ? 'buffer' : 'stream');
 
   return html`<div style=${{
     position: 'fixed',
@@ -73,9 +74,17 @@ export const Video = () => {
       <div>play a video: ${JSON.stringify(getRouteData())}</div>
       <div>${navigator.userAgent}</div>
     </div>
-    ${altMode
-      ? html`<${VideoBlob} url=${getRouteData().data.video} />`
-      : html`<${VideoEmbed} url=${getRouteData().data.video} />`
+    ${
+      (() => {
+        switch (videoMode.value) {
+          case 'stream':
+            return html`<${VideoEmbed} url=${getRouteData().data.video} />`;
+          case 'buffer':
+            return html`<${VideoBlob} url=${getRouteData().data.video} />`;
+          default:
+            return html`<div>something went terribly wrong</div>`;
+          }
+      })()
     }
     <div style=${{
       flexGrow: 1,
@@ -83,7 +92,9 @@ export const Video = () => {
       justifyContent: 'center'
     }}>
       <div style="margin: auto; display: flex; gap: 0.5rem;">
-        <button onClick=${() => setAltMode(!altMode)}>Mode: ${`${altMode ? 'buffer' : 'stream'}`}</button>
+        <button onClick=${() => {
+          videoMode.value = videoMode.value === 'buffer' ? 'stream' : 'buffer';
+        }}>Mode: ${videoMode.value}</button>
         <button onClick=${() => back()}>Close</button>
       </div>
     </div>
