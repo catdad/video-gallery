@@ -38,7 +38,7 @@ const VideoBlob = ({ url }) => {
   }, [url]);
 
   if (!blobUrl) {
-    return html`<div>Loading video...</div>`;
+    return html`<div style="line-height: 4; text-align: center;">Loading video...</div>`;
   }
 
   return html`<${VideoEmbed} url=${blobUrl} />`;
