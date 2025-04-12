@@ -6,7 +6,7 @@ const staticRouter = require('@fastify/static');
 const { map: videoTools } = require('video-tools');
 
 const { initDir } = require('./lib/init.js');
-const { formatDate, sync, purge } = require('./lib/sync.js');
+const { sync, purge } = require('./lib/sync.js');
 
 app.register(staticRouter, {
   root: path.resolve(__dirname, 'web'),
