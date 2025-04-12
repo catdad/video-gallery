@@ -1,5 +1,5 @@
 const path = require('node:path');
-const { host, port, syncPeriod, ...opts } = require('./lib/opts.js');
+const { host, port, syncPeriod, purgePeriod, ...opts } = require('./lib/opts.js');
 
 const app = require('fastify')({ logger: opts.debug });
 const staticRouter = require('@fastify/static');
@@ -82,12 +82,16 @@ app.get('/api/v1/list', async (req) => {
   })();
 
   (function periodicPurge() {
+    if (!purgePeriod) {
+      return;
+    }
+
     const nextPurgeTime = new Date(Date.now() + (1000 * 60 * 60 * 24));
     nextPurgeTime.setHours(3, 0, 0);
 
     const diff = nextPurgeTime.getTime() - Date.now();
 
-    console.log(`scheduling next purge for ${nextPurgeTime}, in ${diff} milliseconds`);
+    console.log(`scheduling next purge (older than ${purgePeriod} days) for ${nextPurgeTime}, in ${diff} milliseconds`);
 
     setTimeout(async () => {
       const start = Date.now();
