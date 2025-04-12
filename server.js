@@ -6,7 +6,7 @@ const staticRouter = require('@fastify/static');
 const { map: videoTools } = require('video-tools');
 
 const { initDir } = require('./lib/init.js');
-const { sync } = require('./lib/sync.js');
+const { formatDate, sync, purge } = require('./lib/sync.js');
 
 app.register(staticRouter, {
   root: path.resolve(__dirname, 'web'),
@@ -79,5 +79,28 @@ app.get('/api/v1/list', async (req) => {
         periodicSync();
       });
     }, 1000 * 60 * syncPeriod);
+  })();
+
+  (function periodicPurge() {
+    const nextPurgeTime = new Date(Date.now() + (1000 * 60 * 60 * 24));
+    nextPurgeTime.setHours(3, 0, 0);
+
+    const diff = nextPurgeTime.getTime() - Date.now();
+
+    console.log(`scheduling next purge for ${nextPurgeTime}, in ${diff} milliseconds`);
+
+    setTimeout(async () => {
+      const start = Date.now();
+
+      try {
+        await purge();
+        console.log(`finished to purge in ${Date.now() - start}ms`);
+      } catch (err) {
+        console.error(`failed to purge in ${Date.now() - start}:`, err);
+      } finally {
+        await new Promise(r => setTimeout(r, 1000));
+        periodicPurge();
+      }
+    }, diff);
   })();
 })();
