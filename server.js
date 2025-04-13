@@ -98,9 +98,9 @@ app.get('/api/v1/list', async (req) => {
 
       try {
         await purge();
-        console.log(`finished to purge in ${Date.now() - start}ms`);
+        console.log(`finished purge in ${Date.now() - start}ms`);
       } catch (err) {
-        console.error(`failed to purge in ${Date.now() - start}:`, err);
+        console.error(`failed purge in ${Date.now() - start}:`, err);
       } finally {
         await new Promise(r => setTimeout(r, 1000));
         periodicPurge();
