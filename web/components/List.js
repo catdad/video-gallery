@@ -67,7 +67,7 @@ const Card = ({ thumbnail, video, duration, date }) => {
 };
 
 export const List = () => {
-  const { list, offset, setOffset } = useList(0);
+  const { list, offset, setOffset } = useList();
   const group = 'hour';
 
   const groups = list.value.reduce((memo, item) => {
