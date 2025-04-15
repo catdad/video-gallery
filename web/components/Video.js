@@ -1,6 +1,7 @@
 import { html, useEffect, useState } from "../lib/preact.js";
 import { usePersistedSignal } from "../lib/persisted-signal.js";
 import { useRoute } from "./hook-router.js";
+import { Button, Toggle } from "./Buttons.js";
 
 const agent = navigator.userAgent.toLowerCase();
 // would be great to detect all webviews, but don't know how to do that
@@ -92,10 +93,15 @@ export const Video = () => {
       justifyContent: 'center'
     }}>
       <div style="margin: auto; display: flex; gap: 0.5rem;">
-        <button onClick=${() => {
-          videoMode.value = videoMode.value === 'buffer' ? 'stream' : 'buffer';
-        }}>Mode: ${videoMode.value}</button>
-        <button onClick=${() => back()}>Close</button>
+        <${Toggle}
+          onChange=${value => {
+            videoMode.value = value;
+          }}
+          options=${[{ value: 'stream'}, { value: 'buffer'}]}
+          value=${videoMode.value}
+          label="Mode"
+        />
+        <${Button} onClick=${() => back()}>Close<//>
       </div>
     </div>
   </div>`
