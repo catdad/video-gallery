@@ -14,19 +14,36 @@ const buttonStyle = {
 
 const buttonFirst = {
   borderLeft: border,
-  borderRadius: '0.5rem 0 0 0.5rem',
+  borderTopLeftRadius: '0.5rem',
+  borderBottomLeftRadius: '0.5rem',
 };
 
 const buttonLast = {
-  borderRadius: '0 0.5rem 0.5rem 0'
+  borderTopRightRadius: '0.5rem',
+  borderBottomRightRadius: '0.5rem',
 };
 
 const buttonSelected = {
   background: 'var(--accent-light)',
 };
 
-export const Toggle = ({ options, onChange, value }) => {
-  return html`<div style="display: flex; margin: 1rem auto; flex-direction: row; justify-content: center;">
+export const Button = ({ onClick, children }) => {
+  return html`<button
+    onClick=${onClick}
+    style=${merge(buttonStyle, buttonFirst, buttonLast)}
+  >
+    ${children}
+  </button>`;
+};
+
+export const Toggle = ({ label, options, onChange, value }) => {
+  return html`<div style=${{
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }}>
+  ${label ? html`<span style="margin-right: 0.5rem">${label}:</span>` : ''}
   ${options.map((option, idx) => html`
     <button
       key=${option.value}
@@ -37,7 +54,7 @@ export const Toggle = ({ options, onChange, value }) => {
         idx === options.length - 1 ? buttonLast : {},
         value === option.value ? buttonSelected : {},
       )}
-    >${option.label || option.value }</button>
+    >${option.label || option.value}</button>
   `)}
   </div>`
 };

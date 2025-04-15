@@ -1,7 +1,7 @@
 import { html } from "../lib/preact.js";
 import { useList, format } from "./hook-list.js";
 import { useRoute } from "./hook-router.js";
-import { Toggle } from './Toggle.js';
+import { Toggle } from './Buttons.js';
 
 const humanize = (offset) => {
   const date = new Date(format(offset));
@@ -95,7 +95,7 @@ export const List = () => {
         onChange=${(value) => setOffset(value)}
       />
       ${list.value.length === 0 ?
-        html`<div style="text-align: center">There are no recordings in this view.</div>` :
+        html`<div style="text-align: center; margin: 1rem auto;">There are no recordings in this view.</div>` :
         Object.entries(groups).map(([key, list]) => html`
           <div key=${key}>
             <div style=${{
