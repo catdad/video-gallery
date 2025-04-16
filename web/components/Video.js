@@ -1,5 +1,6 @@
 import { html, useEffect, useRef, useState } from "../lib/preact.js";
 import { usePersistedSignal } from "../lib/persisted-signal.js";
+import { useRefSignal } from "../lib/ref-signal.js";
 import { useRoute } from "./hook-router.js";
 import { Button, Toggle } from "./Buttons.js";
 
@@ -53,7 +54,7 @@ const VideoEmbed = ({ url, videoRef }) => {
 };
 
 export const Video = () => {
-  const videoRef = useRef(null);
+  const videoRef = useRefSignal(null);
   const { getRouteData, back } = useRoute();
   const videoMode = usePersistedSignal('video-mode', iOSHomeAssistant ? 'buffer' : 'stream');
   const speed = usePersistedSignal('video-speed', 1);
