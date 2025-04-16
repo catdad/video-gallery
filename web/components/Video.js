@@ -116,10 +116,10 @@ export const Video = () => {
             speed.value = value;
           }}
           options=${[
-            { value: '1' },
-            { value: '2' },
-            { value: '3' },
-            { value: '4' },
+            { value: '1', label: '1x' },
+            { value: '2', label: '2x' },
+            { value: '3', label: '3x' },
+            { value: '4', label: '4x' },
           ]}
           value=${speed.value}
           label="Speed"
