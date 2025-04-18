@@ -57,7 +57,7 @@ export const Video = () => {
   const videoRef = useRefSignal(null);
   const { getRouteData, back } = useRoute();
   const videoMode = usePersistedSignal('video-mode', iOSHomeAssistant ? 'buffer' : 'stream');
-  const speed = usePersistedSignal('video-speed', 1);
+  const speed = usePersistedSignal('video-speed', 1, Number);
 
   useEffect(() => {
     if (!videoRef.current) {
@@ -117,10 +117,10 @@ export const Video = () => {
             speed.value = value;
           }}
           options=${[
-            { value: '1', label: '1x' },
-            { value: '2', label: '2x' },
-            { value: '3', label: '3x' },
-            { value: '4', label: '4x' },
+            { value: 1, label: '1x' },
+            { value: 2, label: '2x' },
+            { value: 3, label: '3x' },
+            { value: 4, label: '4x' },
           ]}
           value=${speed.value}
           label="Speed"

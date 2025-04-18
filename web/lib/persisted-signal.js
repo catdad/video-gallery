@@ -1,8 +1,8 @@
 import { effect, useSignal } from "./preact.js";
 
-export const usePersistedSignal = (name, defaultValue) => {
+export const usePersistedSignal = (name, defaultValue, transform = n => n) => {
   const key = `catdad.video-gallery/${name}`;
-  const value = localStorage.getItem(key) || defaultValue;
+  const value = transform(localStorage.getItem(key) || defaultValue);
 
   const signal = useSignal(value);
 
