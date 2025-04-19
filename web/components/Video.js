@@ -3,6 +3,7 @@ import { usePersistedSignal } from "../lib/persisted-signal.js";
 import { useRefSignal } from "../lib/ref-signal.js";
 import { useRoute } from "./hook-router.js";
 import { Button, Toggle } from "./Buttons.js";
+import { Left, X } from './icons.js';
 
 const agent = navigator.userAgent.toLowerCase();
 // would be great to detect all webviews, but don't know how to do that
@@ -116,7 +117,9 @@ export const Video = () => {
     </style>
     <div className="video-container">
       <div className="header">
-        <${Button} onClick=${() => back()}>🡐 Back<//>
+        <${Button} onClick=${() => back()} icon=${html`<${Left} height="0.8rem" thickness="3" />`}>
+          back
+        <//>
         <span>${name}</span>
       </div>
       ${
@@ -159,7 +162,9 @@ export const Video = () => {
             label="Speed"
           />
           <div>
-            <${Button} onClick=${() => back()}>Close<//>
+          <${Button} onClick=${() => back()} icon=${html`<${X} height="0.8rem" thickness="3" />`}>
+            close
+          <//>
           </div>
         </div>
       </div>

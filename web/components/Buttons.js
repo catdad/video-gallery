@@ -27,12 +27,15 @@ const buttonSelected = {
   background: 'var(--accent-light)',
 };
 
-export const Button = ({ onClick, children }) => {
+export const Button = ({ onClick, icon, children }) => {
   return html`<button
     onClick=${onClick}
     style=${merge(buttonStyle, buttonFirst, buttonLast)}
   >
-    ${children}
+    <span style="display: flex; gap: 0.25rem; align-items: center;">
+      ${icon}
+      <span>${children}</span>
+    </span>
   </button>`;
 };
 
