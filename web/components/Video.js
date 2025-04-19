@@ -103,7 +103,7 @@ export const Video = () => {
       @media screen and (orientation: landscape) {
         .video-container .controls {
           flex-direction: row;
-          gap: 0.5rem;
+          gap: 0.75rem;
         }
       }
 
@@ -162,9 +162,9 @@ export const Video = () => {
             label="Speed"
           />
           <div>
-          <${Button} onClick=${() => back()} icon=${html`<${X} height="0.8rem" thickness="3" />`}>
-            close
-          <//>
+            <${Button} onClick=${() => back()} icon=${html`<${X} height="0.8rem" thickness="3" />`}>
+              close
+            <//>
           </div>
         </div>
       </div>

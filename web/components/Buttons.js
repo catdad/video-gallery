@@ -34,7 +34,7 @@ export const Button = ({ onClick, icon, children }) => {
   >
     <span style="display: flex; gap: 0.25rem; align-items: center;">
       ${icon}
-      <span>${children}</span>
+      ${children ? html`<span>${children}</span>` : ''}
     </span>
   </button>`;
 };
@@ -44,20 +44,20 @@ export const Toggle = ({ label, options, onChange, value }) => {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'baseline'
   }}>
-  ${label ? html`<span style="margin-right: 0.5rem">${label}:</span>` : ''}
-  ${options.map((option, idx) => html`
-    <button
-      key=${option.value}
-      onClick=${() => onChange(option.value)}
-      style=${merge(
-        buttonStyle,
-        idx === 0 ? buttonFirst : {},
-        idx === options.length - 1 ? buttonLast : {},
-        value === option.value ? buttonSelected : {},
-      )}
-    >${option.label || option.value}</button>
-  `)}
+    ${label ? html`<span style="margin-right: 0.25rem; font-size: 0.9rem; line-height: 1">${label}:</span>` : ''}
+    ${options.map((option, idx) => html`
+      <button
+        key=${option.value}
+        onClick=${() => onChange(option.value)}
+        style=${merge(
+          buttonStyle,
+          idx === 0 ? buttonFirst : {},
+          idx === options.length - 1 ? buttonLast : {},
+          value === option.value ? buttonSelected : {},
+        )}
+      >${option.label || option.value}</button>
+    `)}
   </div>`
 };
