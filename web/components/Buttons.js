@@ -1,4 +1,4 @@
-import { html } from "../lib/preact.js";
+import { html, useMemo } from "../lib/preact.js";
 
 const merge = (...list) => list.reduce((memo, l) => ({ ...memo, ...l }));
 
@@ -27,19 +27,36 @@ const buttonSelected = {
   background: 'var(--accent-light)',
 };
 
-export const Button = ({ onClick, icon, children }) => {
-  return html`<button
-    onClick=${onClick}
-    style=${merge(buttonStyle, buttonFirst, buttonLast)}
-  >
-    <span style="display: flex; gap: 0.25rem; align-items: center;">
-      ${icon}
-      ${children ? html`<span>${children}</span>` : ''}
-    </span>
-  </button>`;
+export const Button = ({ onClick, icon, children, disabled = false }) => {
+  const className = useMemo(() => `b${Math.random().toString(36).slice(2)}`, []);
+
+  return html`
+    <style>
+      ${`.${className}[disabled]`} {
+        opacity: 0.5;
+      }
+
+      ${`.${className} > span`} {
+        display: flex;
+        gap: 0.25rem;
+        align-items: center;
+      }
+    </style>
+    <button
+      className=${className}
+      onClick=${onClick}
+      style=${merge(buttonStyle, buttonFirst, buttonLast)}
+      disabled=${disabled}
+    >
+      <span>
+        ${icon}
+        ${children ? html`<span>${children}</span>` : ''}
+      </span>
+    </button>
+  `;
 };
 
-export const Toggle = ({ label, options, onChange, value }) => {
+export const Toggle = ({ label, options, onChange, value, disabled = false }) => {
   return html`<div style=${{
     display: 'flex',
     flexDirection: 'row',
@@ -50,6 +67,7 @@ export const Toggle = ({ label, options, onChange, value }) => {
     ${options.map((option, idx) => html`
       <button
         key=${option.value}
+        disabled=${disabled}
         onClick=${() => onChange(option.value)}
         style=${merge(
           buttonStyle,
