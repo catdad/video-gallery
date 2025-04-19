@@ -67,66 +67,87 @@ export const Video = () => {
     videoRef.current.playbackRate = Number(speed.value);
   }, [videoRef.current, `${speed.value}`]);
 
-  return html`<div style=${{
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    height: '100vh',
-    width: '100%',
-    zIndex: 3,
-    overflow: 'hidden',
-    background: 'var(--background)',
-    display: 'flex',
-    flexDirection: 'column',
-  }}>
-    <div style=${{
-      fontFamily: 'monospace',
-      fontSize: '0.6rem',
-    }}>
-      <div>play a video: ${JSON.stringify(getRouteData())}</div>
-      <div>${navigator.userAgent}</div>
-    </div>
-    ${
-      (() => {
-        switch (videoMode.value) {
-          case 'stream':
-            return html`<${VideoEmbed} url=${getRouteData().data.video} videoRef=${videoRef} />`;
-          case 'buffer':
-            return html`<${VideoBlob} url=${getRouteData().data.video} videoRef=${videoRef} />`;
-          default:
-            return html`<div>something went terribly wrong</div>`;
-          }
-      })()
-    }
-    <div style=${{
-      flexGrow: 1,
-      display: 'flex',
-      justifyContent: 'center'
-    }}>
-      <div style="margin: auto; display: flex; gap: 0.5rem;">
-        <${Toggle}
-          onChange=${value => {
-            videoMode.value = value;
-          }}
-          options=${[{ value: 'stream'}, { value: 'buffer'}]}
-          value=${videoMode.value}
-          label="Mode"
-        />
-        <${Toggle}
-          onChange=${value => {
-            speed.value = value;
-          }}
-          options=${[
-            { value: 1, label: '1x' },
-            { value: 2, label: '2x' },
-            { value: 3, label: '3x' },
-            { value: 4, label: '4x' },
-          ]}
-          value=${speed.value}
-          label="Speed"
-        />
-        <${Button} onClick=${() => back()}>Close<//>
+  return html`
+    <style>
+      .video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100%;
+        z-index: 3;
+        overflow: hidden;
+
+        display: flex;
+        flex-direction: column;
+        background: var(--background);
+      }
+
+      .video .controls {
+        margin: auto;
+        display: flex;
+      }
+
+      @media screen and (orientation: landscape) {
+        .video .controls {
+          flex-direction: row;
+          gap: 0.5rem;
+        }
+      }
+
+      @media screen and (orientation: portrait) {
+        .video .controls {
+          flex-direction: column;
+          gap: 1rem;
+          align-items: center;
+        }
+      }
+    </style>
+    <div className="video">
+      ${
+        (() => {
+          switch (videoMode.value) {
+            case 'stream':
+              return html`<${VideoEmbed} url=${getRouteData().data.video} videoRef=${videoRef} />`;
+            case 'buffer':
+              return html`<${VideoBlob} url=${getRouteData().data.video} videoRef=${videoRef} />`;
+            default:
+              return html`<div>something went terribly wrong</div>`;
+            }
+        })()
+      }
+      <div style=${{
+        flexGrow: 1,
+        display: 'flex',
+        justifyContent: 'center'
+      }}>
+        <div className="controls">
+          <${Toggle}
+            onChange=${value => {
+              videoMode.value = value;
+            }}
+            options=${[{ value: 'stream'}, { value: 'buffer'}]}
+            value=${videoMode.value}
+            label="Mode"
+          />
+          <${Toggle}
+            onChange=${value => {
+              speed.value = value;
+            }}
+            options=${[
+              { value: 1, label: '1x' },
+              { value: 2, label: '2x' },
+              { value: 3, label: '3x' },
+              { value: 4, label: '4x' },
+            ]}
+            value=${speed.value}
+            label="Speed"
+          />
+          <div>
+            <${Button} onClick=${() => back()}>Close<//>
+          </div>
+        </div>
       </div>
     </div>
-  </div>`
+  `;
 };
