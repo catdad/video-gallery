@@ -112,7 +112,7 @@ export const Video = () => {
             case 'buffer':
               return html`<${VideoBlob} url=${getRouteData().data.video} videoRef=${videoRef} />`;
             default:
-              return html`<div>something went terribly wrong</div>`;
+              return html`<div>unknown video player mode: ${videoMode.value}</div>`;
             }
         })()
       }
