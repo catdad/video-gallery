@@ -5,10 +5,13 @@ import {
 
 const RouterContext = createContext({});
 
+const encode = (data) => encodeURIComponent(btoa(JSON.stringify(data)));
+const decode = (str) => JSON.parse(atob(decodeURIComponent(str)));
+
 const getHashData = (hash = window.location.hash) => {
   if (/#video/.test(hash)) {
-    const video = hash.replace(/^#video\//, '');
-    return { route: 'video', hash, data: { video }};
+    const data = hash.replace(/^#video\//, '');
+    return { route: 'video', hash, data: decode(data)};
   }
 
   return { route: 'list', hash, data: {} };
@@ -41,7 +44,7 @@ export const withRouter = Component => ({ children, ...props }) => {
   };
 
   const goToVideo = (video) => {
-    routeData.value = getHashData(`#video/${video}`);
+    routeData.value = getHashData(`#video/${encode({ video })}`);
   };
 
   const api = {
