@@ -67,6 +67,9 @@ export const Video = () => {
     videoRef.current.playbackRate = Number(speed.value);
   }, [videoRef.current, `${speed.value}`]);
 
+  const { video: url } = getRouteData().data;
+  const name = url.split('/').pop();
+
   return html`
     <style>
       .video-container {
@@ -81,6 +84,14 @@ export const Video = () => {
         display: flex;
         flex-direction: column;
         background: var(--background);
+      }
+
+      .video-container .header {
+        display: flex;
+        gap: 0.5rem;
+        padding: 0.5rem;
+        font-weight: bold;
+        align-items: center;
       }
 
       .video-container .controls {
@@ -104,13 +115,17 @@ export const Video = () => {
       }
     </style>
     <div className="video-container">
+      <div className="header">
+        <${Button} onClick=${() => back()}>🡐 Back<//>
+        <span>${name}</span>
+      </div>
       ${
         (() => {
           switch (videoMode.value) {
             case 'stream':
-              return html`<${VideoEmbed} url=${getRouteData().data.video} videoRef=${videoRef} />`;
+              return html`<${VideoEmbed} url=${url} videoRef=${videoRef} />`;
             case 'buffer':
-              return html`<${VideoBlob} url=${getRouteData().data.video} videoRef=${videoRef} />`;
+              return html`<${VideoBlob} url=${url} videoRef=${videoRef} />`;
             default:
               return html`<div>unknown video player mode: ${videoMode.value}</div>`;
             }
