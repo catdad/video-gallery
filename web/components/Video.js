@@ -69,7 +69,7 @@ export const Video = () => {
 
   return html`
     <style>
-      .video {
+      .video-container {
         position: fixed;
         top: 0;
         left: 0;
@@ -83,27 +83,27 @@ export const Video = () => {
         background: var(--background);
       }
 
-      .video .controls {
+      .video-container .controls {
         margin: auto;
         display: flex;
       }
 
       @media screen and (orientation: landscape) {
-        .video .controls {
+        .video-container .controls {
           flex-direction: row;
           gap: 0.5rem;
         }
       }
 
       @media screen and (orientation: portrait) {
-        .video .controls {
+        .video-container .controls {
           flex-direction: column;
           gap: 1rem;
           align-items: center;
         }
       }
     </style>
-    <div className="video">
+    <div className="video-container">
       ${
         (() => {
           switch (videoMode.value) {
