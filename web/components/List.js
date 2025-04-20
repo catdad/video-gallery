@@ -2,7 +2,7 @@ import { html } from "../lib/preact.js";
 import { usePersistedSignal } from "../lib/persisted-signal.js";
 import { useList, format } from "./hook-list.js";
 import { useRoute } from "./hook-router.js";
-import { Toggle } from './Buttons.js';
+import { Button, Toggle } from './Buttons.js';
 
 const humanize = (offset) => {
   const date = new Date(format(offset));
@@ -141,6 +141,8 @@ export const List = () => {
           onChange=${(value) => { cameraFilter.value = value; }}
           label="Camera"
         />`: ''}
+        ${!names.value.includes(cameraFilter.value) && cameraFilter.value !== '*'
+          ? html`<${Button} onClick=${() => { cameraFilter.value = '*'; }} >reset camera filters<//>` : ''}
       </div>
       ${Object.keys(groups).length === 0 ?
         html`<div style="text-align: center; margin: 1rem auto;">There are no recordings in this view.</div>` :
