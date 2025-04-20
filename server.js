@@ -1,5 +1,5 @@
 const path = require('node:path');
-const { host, port, syncPeriod, purgePeriod, ...opts } = require('./lib/opts.js');
+const { host, port, syncPeriod, purgePeriod, filter: nameMap, ...opts } = require('./lib/opts.js');
 
 const app = require('fastify')({ logger: opts.debug });
 const staticRouter = require('@fastify/static');
@@ -52,7 +52,9 @@ app.get('/api/v1/health', async (req, reply) => {
 });
 
 app.get('/api/v1/list', async (req) => {
-  return await sync({ date: req.query.date || null });
+  const list = await sync({ date: req.query.date || null });
+
+  return { list, names: Object.values(nameMap) };
 });
 
 (async () => {

@@ -1,7 +1,8 @@
 import { html } from "../lib/preact.js";
+import { usePersistedSignal } from "../lib/persisted-signal.js";
 import { useList, format } from "./hook-list.js";
 import { useRoute } from "./hook-router.js";
-import { Toggle } from './Buttons.js';
+import { Button, Toggle } from './Buttons.js';
 
 const humanize = (offset) => {
   const date = new Date(format(offset));
@@ -67,10 +68,17 @@ const Card = ({ thumbnail, video, duration, date }) => {
 };
 
 export const List = () => {
-  const { list, offset, setOffset } = useList();
+  const cameraFilter = usePersistedSignal('camera-filter', '*');
+  const { list, names, offset, setOffset } = useList();
   const group = 'hour';
 
-  const groups = list.value.reduce((memo, item) => {
+  const groups = list.value.filter(item => {
+    if (cameraFilter.value === '*') {
+      return true;
+    }
+
+    return cameraFilter.value === item.cameraName;
+  }).reduce((memo, item) => {
     const key = groupKeys[group](item.date);
     memo[key] = memo[key] || [];
 
@@ -80,21 +88,63 @@ export const List = () => {
   }, {});
 
   return html`
-    <div style="margin: 1rem auto; max-width: 1000px; padding: 0 1rem;">
-      <${Toggle}
-        options=${[
-          { value: 0, label: humanize(0) },
-          { value: -1, label: humanize(-1) },
-          { value: -2, label: humanize(-2) },
-          { value: -3, label: humanize(-3) },
-          { value: -4, label: humanize(-4) },
-          { value: -5, label: humanize(-5) },
-          { value: null, label: 'all' },
-        ]}
-        value=${offset}
-        onChange=${(value) => setOffset(value)}
-      />
-      ${list.value.length === 0 ?
+    <style>
+      .list {
+        margin: 1rem auto;
+        max-width: 1000px;
+        padding: 0 1rem;
+      }
+
+      .list .filters {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      @media screen and (orientation: landscape) {
+        .list .filters {
+          flex-direction: row;
+          gap: 0.75rem;
+        }
+      }
+
+      @media screen and (orientation: portrait) {
+        .list .filters {
+          flex-direction: column;
+          gap: 1rem;
+        }
+      }
+    </style>
+    <div className="list">
+      <div className="filters">
+        <${Toggle}
+          style="margin-top: 1rem;"
+          options=${[
+            { value: 0, label: humanize(0) },
+            { value: -1, label: humanize(-1) },
+            { value: -2, label: humanize(-2) },
+            { value: -3, label: humanize(-3) },
+            { value: -4, label: humanize(-4) },
+            { value: -5, label: humanize(-5) },
+            { value: null, label: 'all' },
+          ]}
+          value=${offset}
+          onChange=${(value) => setOffset(value)}
+        />
+        ${names.value.length ? html`<${Toggle}
+          options=${
+            names.value
+              .map(n => ({ value: n }))
+              .concat([{ value: '*', label: 'all' }])
+          }
+          value=${cameraFilter.value}
+          onChange=${(value) => { cameraFilter.value = value; }}
+          label="Camera"
+        />`: ''}
+        ${!names.value.includes(cameraFilter.value) && cameraFilter.value !== '*'
+          ? html`<${Button} onClick=${() => { cameraFilter.value = '*'; }} >reset camera filters<//>` : ''}
+      </div>
+      ${Object.keys(groups).length === 0 ?
         html`<div style="text-align: center; margin: 1rem auto;">There are no recordings in this view.</div>` :
         Object.entries(groups).map(([key, list]) => html`
           <div key=${key}>

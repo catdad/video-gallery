@@ -22,6 +22,7 @@ const ListContext = createContext({
 export const withList = Component => ({ children, ...props }) => {
   const offset = useSignal(0);
   const list = useSignal([]);
+  const names = useSignal([]);
   const loaded = useSignal(false);
   const timeout = useSignal();
 
@@ -33,7 +34,7 @@ export const withList = Component => ({ children, ...props }) => {
         throw new Error(`GET list ${res.status}`);
       }
 
-      const data = await res.json();
+      const { list: data, names: namesData } = await res.json();
 
       batch(() => {
         loaded.value = true;
@@ -46,6 +47,8 @@ export const withList = Component => ({ children, ...props }) => {
           // TODO use a formatting library for this
           duration: `${Math.round(d.duration)}s`
         })).sort((a, b) => b.date - a.date);
+
+        names.value = namesData.sort((a, b) => a.localeCompare(b));
       });
     }).catch(err => {
       // TODO handle this error
@@ -73,7 +76,7 @@ export const withList = Component => ({ children, ...props }) => {
   }
 
   const data = {
-    list, loaded, offset
+    list, names, loaded, offset
   };
 
   return html`
@@ -84,10 +87,11 @@ export const withList = Component => ({ children, ...props }) => {
 };
 
 export const useList = () => {
-  const { list, loaded, offset } = useContext(ListContext);
+  const { list, names, loaded, offset } = useContext(ListContext);
 
   return {
     list,
+    names,
     get offset() {
       return offset.value;
     },
