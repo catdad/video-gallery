@@ -145,7 +145,7 @@ export const List = () => {
           ? html`<${Button} onClick=${() => { cameraFilter.value = '*'; }} >reset camera filters<//>` : ''}
       </div>
       ${Object.keys(groups).length === 0 ?
-        html`<div style="text-align: center; margin: 1rem auto;">There are no recordings in this view.</div>` :
+        html`<div style="text-align: center; margin: 1rem auto;">There are no clips in this view.</div>` :
         Object.entries(groups).map(([key, list]) => html`
           <div key=${key}>
             <div style=${{
