@@ -1,7 +1,6 @@
 FROM node:22.13.0
 
-RUN mkdir /input
-RUN mkdir /cache
+RUN mkdir /app /cache /input
 WORKDIR /app
 
 COPY . /app
