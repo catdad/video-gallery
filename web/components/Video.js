@@ -49,7 +49,7 @@ const VideoBlob = ({ url, videoRef }) => {
 
 const VideoEmbed = ({ url, videoRef }) => {
   return html`
-  <video ref=${videoRef} preload="metadata" autoplay muted controls playsinline style="width: 100%; max-height: 80vmin;">
+  <video ref=${videoRef} preload="metadata" autoplay muted controls playsinline style="width: 100%; max-height: 70vh;">
     <source src="${url}" type="video/mp4" />
   </video>`;
 };
