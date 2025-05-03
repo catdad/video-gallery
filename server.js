@@ -88,10 +88,23 @@ app.get('/api/v1/list', async (req) => {
       return;
     }
 
-    const nextPurgeTime = new Date(Date.now() + (1000 * 60 * 60 * 24));
-    nextPurgeTime.setHours(3, 0, 0);
+    const { nextPurgeTime, diff } = (() => {
+      const oneDay = (1000 * 60 * 60 * 24);
 
-    const diff = nextPurgeTime.getTime() - Date.now();
+      const nextPurgeTime = new Date(Date.now() + oneDay);
+      nextPurgeTime.setHours(3, 0, 0);
+
+      let diff = (nextPurgeTime.getTime() - Date.now());
+
+      while (diff > oneDay) {
+        diff -= oneDay;
+      }
+
+      return {
+        diff,
+        nextPurgeTime: new Date(Date.now() + diff),
+      };
+    })();
 
     console.log(`scheduling next purge (older than ${purgePeriod} days) for ${nextPurgeTime}, in ${diff} milliseconds`);
 
