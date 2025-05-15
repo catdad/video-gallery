@@ -61,9 +61,9 @@ export const Toggle = ({ label, options, onChange, value, disabled = false }) =>
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'baseline'
+    alignItems: 'stretch'
   }}>
-    ${label ? html`<span style="margin-right: 0.25rem; font-size: 0.9rem; line-height: 1">${label}:</span>` : ''}
+    ${label ? html`<span style="margin-right: 0.25rem; font-size: 0.9rem; line-height: 1; padding: 0.5rem 0;">${label}:</span>` : ''}
     ${options.map((option, idx) => html`
       <button
         key=${option.value}
