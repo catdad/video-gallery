@@ -14,11 +14,11 @@ function hexToRgb(str) {
   };
 }
 
-const c = `#6BC9FF`;
-const m = `#D53C9F`;
-const y = `#FCE54D`;
-const k = `#0E0B01`;
-const w = `#eceff1`;
+const c = '#6BC9FF';
+const m = '#D53C9F';
+const y = '#FCE54D';
+const k = '#0E0B01';
+const w = '#eceff1';
 
 export const opacity = (color, alpha) => {
   const { r, g, b } = hexToRgb(color);
