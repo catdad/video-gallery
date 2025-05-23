@@ -5,8 +5,8 @@ const merge = (...list) => list.reduce((memo, l) => ({ ...memo, ...l }));
 
 const buttonStyle = {
   border: 'none',
-  background: opacity(color.w, 0.1),
-  color: 'white',
+  background: opacity(color.w, 0.125),
+  color: color.w,
   padding: '0.6rem',
 };
 
