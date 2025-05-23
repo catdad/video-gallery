@@ -1,19 +1,16 @@
 import { html, useMemo } from "../lib/preact.js";
+import { color, opacity } from "./theme.js";
 
 const merge = (...list) => list.reduce((memo, l) => ({ ...memo, ...l }));
 
-const border = '1px solid var(--accent)';
-
 const buttonStyle = {
-  background: 'var(--bg-card)',
-  border,
-  borderLeft: 'none',
+  border: 'none',
+  background: opacity(color.w, 0.1),
   color: 'white',
-  padding: '0.5rem',
+  padding: '0.6rem',
 };
 
 const buttonFirst = {
-  borderLeft: border,
   borderTopLeftRadius: '0.5rem',
   borderBottomLeftRadius: '0.5rem',
 };
@@ -24,7 +21,8 @@ const buttonLast = {
 };
 
 const buttonSelected = {
-  background: 'var(--accent-light)',
+  background: color.m,
+  color: color.k
 };
 
 export const Button = ({ onClick, icon, children, disabled = false }) => {
