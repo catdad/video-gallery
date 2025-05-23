@@ -42,10 +42,10 @@ const groupKeys = {
 
 const Label = styled('span', {
   color: color.k,
-  background: color.y,
+  background: color.c,
   fontSize: '0.75rem',
   borderRadius: '0.25rem',
-  padding: `${0.25/4}rem ${0.25/2}rem`
+  padding: `${0.25/4}rem 0.25rem`
 });
 
 const Image = styled('img', {
@@ -165,7 +165,7 @@ export const List = () => {
                 position: 'absolute',
                 top: 'calc(50% + 1px)',
                 height: '1px',
-                background: color.c,
+                background: color.y,
                 width: '100%',
                 zIndex: 1
               }} />
@@ -174,7 +174,7 @@ export const List = () => {
                 fontSize: '0.75rem',
                 color: color.k,
                 borderRadius: '1rem',
-                background: color.c,
+                background: color.y,
                 position: 'relative',
                 zIndex: 2
               }}>${key}</span>
