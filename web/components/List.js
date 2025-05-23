@@ -3,6 +3,7 @@ import { usePersistedSignal } from "../lib/persisted-signal.js";
 import { useList, format } from "./hook-list.js";
 import { useRoute } from "./hook-router.js";
 import { Button, Toggle } from './Buttons.js';
+import { color, styled } from "./theme.js";
 
 const humanize = (offset) => {
   const date = new Date(format(offset));
@@ -39,29 +40,36 @@ const groupKeys = {
   none: () => 'All'
 };
 
+const Label = styled('span', {
+  color: color.k,
+  background: color.y,
+  fontSize: '0.75rem',
+  borderRadius: '0.25rem',
+  padding: `${0.25/4}rem ${0.25/2}rem`
+});
+
+const Image = styled('img', {
+  width: '100%',
+  borderRadius: '0.5rem 0.5rem 0.25rem 0.25rem'
+});
+
 const Card = ({ thumbnail, video, duration, date }) => {
   const { goToVideo } = useRoute();
 
   return html`
     <div style=${{
-      borderRadius: '0.5rem',
-      border: `1px solid var(--accent)`,
-      background: 'var(--bg-card)',
       display: 'inline-block',
-      overflow: 'hidden'
     }} onClick=${() => {
       goToVideo(video);
     }}>
-      <img src="${thumbnail}" loading="lazy" style="width: 100%" />
+      <${Image} src="${thumbnail}" loading="lazy" />
       <div style=${{
-        padding: '0 0.5rem 0.5rem',
-        fontSize: '0.8rem',
         display: 'flex',
         gap: '1rem',
         justifyContent: 'space-between'
       }}>
-        <span>${dateLabel(date)}<//>
-        <span>${duration}<//>
+        <${Label}>${dateLabel(date)}<//>
+        <${Label} style=${{ background: color.m }}>${duration}<//>
       </div>
     </div>
   `;
@@ -150,22 +158,23 @@ export const List = () => {
           <div key=${key}>
             <div style=${{
               textAlign: 'center',
-              fontWeight: 'bold',
               margin: '2rem auto 1rem',
               position: 'relative'
             }}>
               <div style=${{
                 position: 'absolute',
-                top: '50%',
-                borderTop: '1px solid var(--accent-light)',
+                top: 'calc(50% + 1px)',
+                height: '1px',
+                background: color.c,
                 width: '100%',
                 zIndex: 1
               }} />
               <span style=${{
-                padding: '0.25rem 1rem',
-                border: '1px solid var(--accent)',
-                borderRadius: '1.5rem',
-                background: 'var(--bg-card)',
+                padding: '0.25rem 0.5rem',
+                fontSize: '0.75rem',
+                color: color.k,
+                borderRadius: '1rem',
+                background: color.c,
                 position: 'relative',
                 zIndex: 2
               }}>${key}</span>
