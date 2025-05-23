@@ -1,9 +1,5 @@
 import { html } from "../lib/preact.js";
 
-function toDecimal(str) {
-  return parseInt(str, 16);
-}
-
 function hexToRgb(str) {
   let val = String(str).replace(/[^0-9a-f]/gi, '');
 
@@ -12,9 +8,9 @@ function hexToRgb(str) {
   }
 
   return {
-    r: toDecimal(val.substring(0, 2)),
-    g: toDecimal(val.substring(2, 4)),
-    b: toDecimal(val.substring(4, 6))
+    r: parseInt(val.substring(0, 2), 16),
+    g: parseInt(val.substring(2, 4), 16),
+    b: parseInt(val.substring(4, 6), 16)
   };
 }
 
@@ -29,10 +25,11 @@ export const opacity = (color, alpha) => {
   return `rgba(${r},${g},${b},${alpha})`;
 };
 
-export const color = { c, m, y, k, w };
+export const styled = (elem, style) =>
+  ({ style: override = {}, ...props } = {}) =>
+    html`<${elem} ...${props} style=${{ ...style, ...override }} />`;
 
-export const text = w;
-export const background = k;
+export const color = { c, m, y, k, w };
 
 export const withTheme = Component => props => html`<style>
   :root {
