@@ -1,4 +1,5 @@
 import { html } from "../lib/preact.js";
+import { withTheme } from "./color.js";
 import { useRoute, withRouter } from "./hook-router.js";
 import { withList } from "./hook-list.js";
 import { List } from "./List.js";
@@ -22,4 +23,4 @@ const AppInner = () => {
   return html`<div>wat?</div>`;
 };
 
-export const App = withRouter(withList(AppInner));
+export const App = withTheme(withRouter(withList(AppInner)));
