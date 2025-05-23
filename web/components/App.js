@@ -1,5 +1,5 @@
 import { html } from "../lib/preact.js";
-import { withTheme } from "./color.js";
+import { withTheme } from "./theme.js";
 import { useRoute, withRouter } from "./hook-router.js";
 import { withList } from "./hook-list.js";
 import { List } from "./List.js";
