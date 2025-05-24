@@ -78,6 +78,30 @@ const Card = ({ thumbnail, video, duration, date }) => {
   `;
 };
 
+const Section = ({ title }) => html`<div style=${{
+  textAlign: 'center',
+  margin: '2rem auto 1rem',
+  position: 'relative'
+}}>
+  <div style=${{
+    position: 'absolute',
+    top: 'calc(50% + 1px)',
+    height: '1px',
+    background: color.secondary,
+    width: '100%',
+    zIndex: 1
+  }} />
+  <span style=${{
+    padding: '0.25rem 0.5rem',
+    fontSize: '0.75rem',
+    color: color.background,
+    borderRadius: '1rem',
+    background: color.secondary,
+    position: 'relative',
+    zIndex: 2
+  }}>${title}</span>
+</div>`;
+
 export const List = withList(() => {
   const cameraFilter = usePersistedSignal('camera-filter', '*');
   const { list, names, offset, setOffset } = useList();
@@ -159,29 +183,7 @@ export const List = withList(() => {
         html`<div style="text-align: center; margin: 1rem auto;">There are no clips in this view.</div>` :
         Object.entries(groups).map(([key, list]) => html`
           <div key=${key}>
-            <div style=${{
-              textAlign: 'center',
-              margin: '2rem auto 1rem',
-              position: 'relative'
-            }}>
-              <div style=${{
-                position: 'absolute',
-                top: 'calc(50% + 1px)',
-                height: '1px',
-                background: color.secondary,
-                width: '100%',
-                zIndex: 1
-              }} />
-              <span style=${{
-                padding: '0.25rem 0.5rem',
-                fontSize: '0.75rem',
-                color: color.background,
-                borderRadius: '1rem',
-                background: color.secondary,
-                position: 'relative',
-                zIndex: 2
-              }}>${key}</span>
-            </div>
+            <${Section} title=${key} />
 
             <div style=${{
               display: 'grid',
