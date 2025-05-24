@@ -59,6 +59,8 @@ const Card = ({ thumbnail, video, duration, date }) => {
   return html`
     <div style=${{
       display: 'inline-block',
+      position: 'relative',
+      fontSize: 0,
     }} onClick=${() => {
       goToVideo(video);
     }}>
@@ -66,7 +68,8 @@ const Card = ({ thumbnail, video, duration, date }) => {
       <div style=${{
         display: 'flex',
         gap: '1rem',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginTop: '0.25rem',
       }}>
         <${Label}>${dateLabel(date)}<//>
         <${Label} style=${{ background: color.m }}>${duration}<//>
