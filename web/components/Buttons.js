@@ -5,8 +5,8 @@ const merge = (...list) => list.reduce((memo, l) => ({ ...memo, ...l }));
 
 const buttonStyle = {
   border: 'none',
-  background: opacity(color.w, 0.125),
-  color: color.w,
+  background: opacity(color.foreground, 0.125),
+  color: color.foreground,
   padding: '0.5rem',
 };
 
@@ -21,8 +21,8 @@ const buttonLast = {
 };
 
 const buttonSelected = {
-  background: color.m,
-  color: color.k,
+  background: color.primary,
+  color: color.background,
 };
 
 const GroupButton = styled('button', buttonStyle);

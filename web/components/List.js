@@ -41,8 +41,8 @@ const groupKeys = {
 };
 
 const Label = styled('span', {
-  color: color.k,
-  background: color.c,
+  color: color.background,
+  background: color.tertiary,
   fontSize: '0.75rem',
   borderRadius: '0.25rem',
   padding: `${0.25/4}rem 0.25rem`
@@ -72,7 +72,7 @@ const Card = ({ thumbnail, video, duration, date }) => {
         marginTop: '0.25rem',
       }}>
         <${Label}>${dateLabel(date)}<//>
-        <${Label} style=${{ background: color.m }}>${duration}<//>
+        <${Label} style=${{ background: color.primary }}>${duration}<//>
       </div>
     </div>
   `;
@@ -168,16 +168,16 @@ export const List = () => {
                 position: 'absolute',
                 top: 'calc(50% + 1px)',
                 height: '1px',
-                background: color.y,
+                background: color.secondary,
                 width: '100%',
                 zIndex: 1
               }} />
               <span style=${{
                 padding: '0.25rem 0.5rem',
                 fontSize: '0.75rem',
-                color: color.k,
+                color: color.background,
                 borderRadius: '1rem',
-                background: color.y,
+                background: color.secondary,
                 position: 'relative',
                 zIndex: 2
               }}>${key}</span>

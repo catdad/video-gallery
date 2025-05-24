@@ -17,9 +17,15 @@ function hexToRgb(str) {
 const c = '#6BC9FF';
 const m = '#D53C9F';
 const y = '#FCE54D';
-// const k = '#0E0B01'; // yellow-based
 const k = '#06010e'; // indigo-based
 const w = '#eceff1';
+
+const foreground = w;
+const background = k;
+
+const primary = m;
+const secondary = y;
+const tertiary = c;
 
 export const opacity = (color, alpha) => {
   const { r, g, b } = hexToRgb(color);
@@ -30,12 +36,19 @@ export const styled = (elem, style) =>
   ({ style: override = {}, ...props } = {}) =>
     html`<${elem} ...${props} style=${{ ...style, ...override }} />`;
 
-export const color = { c, m, y, k, w };
+export const color = {
+  c, m, y, k, w,
+  foreground,
+  background,
+  primary,
+  secondary,
+  tertiary
+};
 
 export const withTheme = Component => props => html`<style>
   :root {
-    --foreground: ${w};
-    --background: ${k};
+    --foreground: ${foreground};
+    --background: ${background};
   }
 
   html,
