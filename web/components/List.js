@@ -1,6 +1,6 @@
 import { html } from "../lib/preact.js";
 import { usePersistedSignal } from "../lib/persisted-signal.js";
-import { useList, format } from "./hook-list.js";
+import { useList, withList, format } from "./hook-list.js";
 import { useRoute } from "./hook-router.js";
 import { Button, Toggle } from './Buttons.js';
 import { color, styled } from "./theme.js";
@@ -78,7 +78,7 @@ const Card = ({ thumbnail, video, duration, date }) => {
   `;
 };
 
-export const List = () => {
+export const List = withList(() => {
   const cameraFilter = usePersistedSignal('camera-filter', '*');
   const { list, names, offset, setOffset } = useList();
   const group = 'hour';
@@ -195,4 +195,4 @@ export const List = () => {
       }
     <//>
   `;
-};
+});
