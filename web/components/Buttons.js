@@ -7,7 +7,7 @@ const buttonStyle = {
   border: 'none',
   background: opacity(color.w, 0.125),
   color: color.w,
-  padding: '0.6rem',
+  padding: '0.5rem',
 };
 
 const buttonFirst = {
@@ -22,7 +22,7 @@ const buttonLast = {
 
 const buttonSelected = {
   background: color.m,
-  color: color.k
+  color: color.k,
 };
 
 const GroupButton = styled('button', buttonStyle);
