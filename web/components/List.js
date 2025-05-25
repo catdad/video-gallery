@@ -3,7 +3,7 @@ import { usePersistedSignal } from "../lib/persisted-signal.js";
 import { useList, withList, format } from "./hook-list.js";
 import { useRoute } from "./hook-router.js";
 import { Button, Toggle } from './Buttons.js';
-import { color, styled } from "./theme.js";
+import { styled, useTheme } from "./theme.js";
 
 const humanize = (offset) => {
   const date = new Date(format(offset));
@@ -40,13 +40,13 @@ const groupKeys = {
   none: () => 'All'
 };
 
-const Label = styled('span', {
+const Label = styled('span', color => ({
   color: color.background,
   background: color.tertiary,
   fontSize: '0.75rem',
   borderRadius: '0.25rem',
   padding: `${0.25/4}rem 0.25rem`
-});
+}));
 
 const Image = styled('img', {
   width: '100%',
@@ -55,6 +55,7 @@ const Image = styled('img', {
 
 const Card = ({ thumbnail, video, duration, date }) => {
   const { goToVideo } = useRoute();
+  const color = useTheme();
 
   return html`
     <div style=${{
@@ -78,29 +79,33 @@ const Card = ({ thumbnail, video, duration, date }) => {
   `;
 };
 
-const Section = ({ title }) => html`<div style=${{
-  textAlign: 'center',
-  margin: '2rem auto 1rem',
-  position: 'relative'
-}}>
-  <div style=${{
-    position: 'absolute',
-    top: 'calc(50% + 1px)',
-    height: '1px',
-    background: color.secondary,
-    width: '100%',
-    zIndex: 1
-  }} />
-  <span style=${{
-    padding: '0.25rem 0.5rem',
-    fontSize: '0.75rem',
-    color: color.background,
-    borderRadius: '1rem',
-    background: color.secondary,
-    position: 'relative',
-    zIndex: 2
-  }}>${title}</span>
-</div>`;
+const Section = ({ title }) => {
+  const color = useTheme();
+
+  return html`<div style=${{
+    textAlign: 'center',
+    margin: '2rem auto 1rem',
+    position: 'relative'
+  }}>
+    <div style=${{
+      position: 'absolute',
+      top: 'calc(50% + 1px)',
+      height: '1px',
+      background: color.secondary,
+      width: '100%',
+      zIndex: 1
+    }} />
+    <span style=${{
+      padding: '0.25rem 0.5rem',
+      fontSize: '0.75rem',
+      color: color.background,
+      borderRadius: '1rem',
+      background: color.secondary,
+      position: 'relative',
+      zIndex: 2
+    }}>${title}</span>
+  </div>`;
+};
 
 export const List = withList(() => {
   const cameraFilter = usePersistedSignal('camera-filter', '*');

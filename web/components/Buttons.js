@@ -1,14 +1,7 @@
 import { html, useMemo } from "../lib/preact.js";
-import { color, opacity, styled } from "./theme.js";
+import { opacity, styled, useTheme } from "./theme.js";
 
 const merge = (...list) => list.reduce((memo, l) => ({ ...memo, ...l }));
-
-const buttonStyle = {
-  border: 'none',
-  background: opacity(color.foreground, 0.125),
-  color: color.foreground,
-  padding: '0.5rem',
-};
 
 const buttonFirst = {
   borderTopLeftRadius: '0.5rem',
@@ -20,12 +13,12 @@ const buttonLast = {
   borderBottomRightRadius: '0.5rem',
 };
 
-const buttonSelected = {
-  background: color.primary,
-  color: color.background,
-};
-
-const GroupButton = styled('button', buttonStyle);
+const GroupButton = styled('button', color => ({
+  border: 'none',
+  background: opacity(color.foreground, 0.125),
+  color: color.foreground,
+  padding: '0.5rem',
+}));
 const StandaloneButton = styled(GroupButton, merge(buttonFirst, buttonLast));
 
 export const Button = ({ onClick, icon, children, disabled = false }) => {
@@ -57,6 +50,8 @@ export const Button = ({ onClick, icon, children, disabled = false }) => {
 };
 
 export const Toggle = ({ label, options, onChange, value, disabled = false }) => {
+  const color = useTheme();
+
   return html`<div style=${{
     display: 'flex',
     flexDirection: 'row',
@@ -72,7 +67,10 @@ export const Toggle = ({ label, options, onChange, value, disabled = false }) =>
         style=${merge(
           idx === 0 ? buttonFirst : {},
           idx === options.length - 1 ? buttonLast : {},
-          value === option.value ? buttonSelected : {},
+          value === option.value ? {
+            background: color.primary,
+            color: color.background,
+          } : {},
         )}
       >${option.label || option.value}<//>
     `)}

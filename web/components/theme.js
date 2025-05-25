@@ -1,4 +1,4 @@
-import { html } from "../lib/preact.js";
+import { html, createContext, useSignal, useContext} from "../lib/preact.js";
 
 function hexToRgb(str) {
   let val = String(str).replace(/[^0-9a-f]/gi, '');
@@ -20,48 +20,59 @@ const y = '#FCE54D';
 const k = '#06010e'; // indigo-based
 const w = '#eceff1';
 
-const foreground = w;
-const background = k;
-
-const primary = m;
-const secondary = y;
-const tertiary = c;
-
 export const opacity = (color, alpha) => {
   const { r, g, b } = hexToRgb(color);
   return `rgba(${r},${g},${b},${alpha})`;
 };
 
 export const styled = (elem, style) =>
-  ({ style: override = {}, ...props } = {}) =>
-    html`<${elem} ...${props} style=${{ ...style, ...override }} />`;
+  ({ style: override = {}, ...props } = {}) => {
+    const color = useTheme();
+    const _style = typeof style === 'function' ? style(color) : style;
 
-export const color = {
-  c, m, y, k, w,
-  foreground,
-  background,
-  primary,
-  secondary,
-  tertiary
+    return html`<${elem} ...${props} style=${{ ..._style, ...override }} />`;
+  };
+
+const ThemeContext = createContext({});
+
+export const withTheme = Component => props => {
+  const foreground = useSignal(w);
+  const background = useSignal(k);
+
+  const primary = useSignal(m);
+  const secondary = useSignal(y);
+  const tertiary = useSignal(c);
+
+  return html`<style>
+    :root {
+      --foreground: ${foreground.value};
+      --background: ${background.value};
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      color: var(--foreground);
+      background-color: var(--background);
+      font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+  </style>
+  <${ThemeContext.Provider} value=${{
+    foreground: foreground.value,
+    background: background.value,
+    primary: primary.value,
+    secondary: secondary.value,
+    tertiary: tertiary.value,
+  }}>
+    <${Component} ...${props} />
+  <//>`;
 };
 
-export const withTheme = Component => props => html`<style>
-  :root {
-    --foreground: ${foreground};
-    --background: ${background};
-  }
-
-  html,
-  body {
-    margin: 0;
-    padding: 0;
-    color: var(--foreground);
-    background-color: var(--background);
-    font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  }
-
-  * {
-    box-sizing: border-box;
-  }
-</style>
-<${Component} ...${props} />`;
+export const useTheme = () => {
+  return useContext(ThemeContext);
+};
