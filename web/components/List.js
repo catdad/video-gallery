@@ -59,7 +59,6 @@ const Image = styled('img', {
 
 const Card = ({ thumbnail, video, duration, date }) => {
   const { goToVideo } = useRoute();
-  const color = useTheme();
 
   return html`
     <div style=${{
