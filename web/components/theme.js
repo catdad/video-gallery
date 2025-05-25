@@ -1,4 +1,4 @@
-import { html, createContext, useSignal, useContext} from "../lib/preact.js";
+import { html, createContext, useComputed, useSignal, useContext } from "../lib/preact.js";
 
 function hexToRgb(str) {
   let val = String(str).replace(/[^0-9a-f]/gi, '');
@@ -13,6 +13,23 @@ function hexToRgb(str) {
     b: parseInt(val.substring(4, 6), 16)
   };
 }
+
+const distance = (rgb1, rgb2) => Math.sqrt(
+  Math.pow(rgb2.r - rgb1.r, 2) +
+  Math.pow(rgb2.g - rgb1.g, 2) +
+  Math.pow(rgb2.b - rgb1.b, 2)
+);
+
+const pickContrast = (target, candidate1, candidate2) => {
+  const rgb = hexToRgb(target);
+  const rgb1 = hexToRgb(candidate1);
+  const rgb2 = hexToRgb(candidate2);
+
+  const distanceTo1 = distance(rgb, rgb1);
+  const distanceTo2 = distance(rgb, rgb2);
+
+  return distanceTo1 > distanceTo2 ? candidate1 : candidate2;
+};
 
 const c = '#6BC9FF';
 const m = '#D53C9F';
@@ -43,6 +60,10 @@ export const withTheme = Component => props => {
   const secondary = useSignal(y);
   const tertiary = useSignal(c);
 
+  const textOnPrimary = useComputed(() => pickContrast(primary.value, foreground.value, background.value));
+  const textOnSecondary = useComputed(() => pickContrast(secondary.value, foreground.value, background.value));
+  const textOnTertiary = useComputed(() => pickContrast(tertiary.value, foreground.value, background.value));
+
   return html`<style>
     :root {
       --foreground: ${foreground.value};
@@ -65,13 +86,18 @@ export const withTheme = Component => props => {
   <${ThemeContext.Provider} value=${{
     foreground, background,
     primary, secondary, tertiary,
+    textOnPrimary, textOnSecondary, textOnTertiary
   }}>
     <${Component} ...${props} />
   <//>`;
 };
 
 export const useTheme = () => {
-  const { foreground, background, primary, secondary, tertiary } = useContext(ThemeContext);
+  const {
+    foreground, background,
+    primary, secondary, tertiary,
+    textOnPrimary, textOnSecondary, textOnTertiary
+  } = useContext(ThemeContext);
 
   return {
     foreground: foreground.value,
@@ -79,5 +105,8 @@ export const useTheme = () => {
     primary: primary.value,
     secondary: secondary.value,
     tertiary: tertiary.value,
+    textOnPrimary: textOnPrimary.value,
+    textOnSecondary: textOnSecondary.value,
+    textOnTertiary: textOnTertiary.value
   };
 };

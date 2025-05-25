@@ -41,12 +41,16 @@ const groupKeys = {
 };
 
 const Label = styled('span', ({ color }) => ({
-  color: color.background,
   background: color.tertiary,
+  color: color.textOnTertiary,
   fontSize: '0.75rem',
   borderRadius: '0.25rem',
   padding: `${0.25/4}rem 0.25rem`
 }));
+const Label2 = styled(Label, ({ color }) => ({
+  background: color.primary,
+  color: color.textOnPrimary
+}))
 
 const Image = styled('img', {
   width: '100%',
@@ -73,7 +77,7 @@ const Card = ({ thumbnail, video, duration, date }) => {
         marginTop: '0.25rem',
       }}>
         <${Label}>${dateLabel(date)}<//>
-        <${Label} style=${{ background: color.primary }}>${duration}<//>
+        <${Label2}>${duration}<//>
       </div>
     </div>
   `;
@@ -98,9 +102,9 @@ const Section = ({ title }) => {
     <span style=${{
       padding: '0.25rem 0.5rem',
       fontSize: '0.75rem',
-      color: color.background,
       borderRadius: '1rem',
       background: color.secondary,
+      color: color.textOnSecondary,
       position: 'relative',
       zIndex: 2
     }}>${title}</span>

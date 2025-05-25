@@ -69,7 +69,7 @@ export const Toggle = ({ label, options, onChange, value, disabled = false }) =>
           idx === options.length - 1 ? buttonLast : {},
           value === option.value ? {
             background: color.primary,
-            color: color.background,
+            color: color.textOnPrimary,
           } : {},
         )}
       >${option.label || option.value}<//>
