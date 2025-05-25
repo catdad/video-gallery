@@ -63,16 +63,21 @@ export const withTheme = Component => props => {
     }
   </style>
   <${ThemeContext.Provider} value=${{
-    foreground: foreground.value,
-    background: background.value,
-    primary: primary.value,
-    secondary: secondary.value,
-    tertiary: tertiary.value,
+    foreground, background,
+    primary, secondary, tertiary,
   }}>
     <${Component} ...${props} />
   <//>`;
 };
 
 export const useTheme = () => {
-  return useContext(ThemeContext);
+  const { foreground, background, primary, secondary, tertiary } = useContext(ThemeContext);
+
+  return {
+    foreground: foreground.value,
+    background: background.value,
+    primary: primary.value,
+    secondary: secondary.value,
+    tertiary: tertiary.value,
+  };
 };
