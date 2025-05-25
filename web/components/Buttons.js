@@ -13,7 +13,7 @@ const buttonLast = {
   borderBottomRightRadius: '0.5rem',
 };
 
-const GroupButton = styled('button', color => ({
+const GroupButton = styled('button', ({ color }) => ({
   border: 'none',
   background: opacity(color.foreground, 0.125),
   color: color.foreground,

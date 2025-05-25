@@ -40,7 +40,7 @@ const groupKeys = {
   none: () => 'All'
 };
 
-const Label = styled('span', color => ({
+const Label = styled('span', ({ color }) => ({
   color: color.background,
   background: color.tertiary,
   fontSize: '0.75rem',

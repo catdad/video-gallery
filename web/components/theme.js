@@ -28,7 +28,7 @@ export const opacity = (color, alpha) => {
 export const styled = (elem, style) =>
   ({ style: override = {}, ...props } = {}) => {
     const color = useTheme();
-    const _style = typeof style === 'function' ? style(color) : style;
+    const _style = typeof style === 'function' ? style({ color }) : style;
 
     return html`<${elem} ...${props} style=${{ ..._style, ...override }} />`;
   };
