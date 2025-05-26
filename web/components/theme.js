@@ -38,6 +38,13 @@ const themes = {
     primary: '#D53C9F', // m
     secondary: '#FCE54D', // y
     tertiary: '#6BC9FF', // c
+  },
+  dark: {
+    foreground: '#eceff1',
+    background: '#06010e',
+    primary: '#d53c9f',
+    secondary: '#2a2532',
+    tertiary: '#2a2532'
   }
 };
 
