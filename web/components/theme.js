@@ -42,7 +42,7 @@ const themes = {
   dark: {
     foreground: '#eceff1',
     background: '#06010e',
-    primary: '#d53c9f',
+    primary: '#633c73',
     secondary: '#2a2532',
     tertiary: '#2a2532'
   }
