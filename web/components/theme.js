@@ -31,11 +31,15 @@ const pickContrast = (target, candidate1, candidate2) => {
   return distanceTo1 > distanceTo2 ? candidate1 : candidate2;
 };
 
-const c = '#6BC9FF';
-const m = '#D53C9F';
-const y = '#FCE54D';
-const k = '#06010e'; // indigo-based
-const w = '#eceff1';
+const themes = {
+  cmyk: {
+    foreground: '#eceff1', // w
+    background: '#06010e', // k, indigo based
+    primary: '#D53C9F', // m
+    secondary: '#FCE54D', // y
+    tertiary: '#6BC9FF', // c
+  }
+};
 
 export const opacity = (color, alpha) => {
   const { r, g, b } = hexToRgb(color);
@@ -53,12 +57,13 @@ export const styled = (elem, style) =>
 const ThemeContext = createContext({});
 
 export const withTheme = Component => props => {
-  const foreground = useSignal(w);
-  const background = useSignal(k);
+  const defaults = themes.cmyk;
+  const foreground = useSignal(defaults.foreground);
+  const background = useSignal(defaults.background);
 
-  const primary = useSignal(m);
-  const secondary = useSignal(y);
-  const tertiary = useSignal(c);
+  const primary = useSignal(defaults.primary);
+  const secondary = useSignal(defaults.secondary);
+  const tertiary = useSignal(defaults.tertiary);
 
   const textOnPrimary = useComputed(() => pickContrast(primary.value, foreground.value, background.value));
   const textOnSecondary = useComputed(() => pickContrast(secondary.value, foreground.value, background.value));
