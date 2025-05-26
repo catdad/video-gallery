@@ -15,9 +15,9 @@ const humanize = (offset) => {
 };
 
 const dateLabel = date => new Intl.DateTimeFormat(navigator.language, {
-  weekday: 'short',
-  month: 'short',
-  day: 'numeric',
+  // weekday: 'short',
+  // month: 'short',
+  // day: 'numeric',
   hour: 'numeric',
   minute: 'numeric'
 }).format(date);
