@@ -64,7 +64,8 @@ export const styled = (elem, style) =>
 const ThemeContext = createContext({});
 
 export const withTheme = Component => props => {
-  const defaults = themes.cmyk;
+  const defaults = themes.dark;
+
   const foreground = useSignal(defaults.foreground);
   const background = useSignal(defaults.background);
 
