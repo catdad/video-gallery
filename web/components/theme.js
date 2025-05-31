@@ -45,6 +45,13 @@ const themes = {
     primary: '#633c73',
     secondary: '#2a2532',
     tertiary: '#2a2532'
+  },
+  monotone: {
+    foreground: '#eceff1',
+    background: '#06010e',
+    primary: '#3d3945',
+    secondary: '#3d3945',
+    tertiary: '#3d3945'
   }
 };
 
@@ -64,7 +71,7 @@ export const styled = (elem, style) =>
 const ThemeContext = createContext({});
 
 export const withTheme = Component => props => {
-  const defaults = themes.dark;
+  const defaults = themes.monotone;
 
   const foreground = useSignal(defaults.foreground);
   const background = useSignal(defaults.background);
