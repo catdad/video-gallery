@@ -4,6 +4,7 @@ import { useList, withList, format } from "./hook-list.js";
 import { useRoute } from "./hook-router.js";
 import { Button, Toggle } from './Buttons.js';
 import { styled, useTheme } from "./theme.js";
+import { PrimaryLabel, TertiaryLabel } from "./Label.js";
 
 const humanize = (offset) => {
   const date = new Date(format(offset));
@@ -40,18 +41,6 @@ const groupKeys = {
   none: () => 'All'
 };
 
-const Label = styled('span', ({ color }) => ({
-  background: color.tertiary,
-  color: color.textOnTertiary,
-  fontSize: '0.75rem',
-  borderRadius: '0.25rem',
-  padding: `${0.25/4}rem 0.25rem`
-}));
-const Label2 = styled(Label, ({ color }) => ({
-  background: color.primary,
-  color: color.textOnPrimary
-}))
-
 const Image = styled('img', {
   width: '100%',
   borderRadius: '0.5rem 0.5rem 0.25rem 0.25rem'
@@ -75,8 +64,8 @@ const Card = ({ thumbnail, video, duration, date }) => {
         justifyContent: 'space-between',
         marginTop: '0.25rem',
       }}>
-        <${Label}>${dateLabel(date)}<//>
-        <${Label2}>${duration}<//>
+        <${TertiaryLabel}>${dateLabel(date)}<//>
+        <${PrimaryLabel}>${duration}<//>
       </div>
     </div>
   `;
