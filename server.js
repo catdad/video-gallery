@@ -63,6 +63,10 @@ app.get('/api/v1/list', async (req) => {
 
   await app.listen({ host, port });
 
+  if (!opts.debug) {
+    console.log(`listening at http://localhost:${port}`);
+  }
+
   const start = Date.now();
   try {
     await sync();
