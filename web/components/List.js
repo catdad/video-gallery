@@ -1,8 +1,10 @@
 import { html } from "../lib/preact.js";
 import { usePersistedSignal } from "../lib/persisted-signal.js";
-import { useList, format } from "./hook-list.js";
+import { useList, withList, format } from "./hook-list.js";
 import { useRoute } from "./hook-router.js";
 import { Button, Toggle } from './Buttons.js';
+import { styled, useTheme } from "./theme.js";
+import { PrimaryLabel, TertiaryLabel } from "./Label.js";
 
 const humanize = (offset) => {
   const date = new Date(format(offset));
@@ -14,9 +16,9 @@ const humanize = (offset) => {
 };
 
 const dateLabel = date => new Intl.DateTimeFormat(navigator.language, {
-  weekday: 'short',
-  month: 'short',
-  day: 'numeric',
+  // weekday: 'short',
+  // month: 'short',
+  // day: 'numeric',
   hour: 'numeric',
   minute: 'numeric'
 }).format(date);
@@ -39,35 +41,65 @@ const groupKeys = {
   none: () => 'All'
 };
 
+const Image = styled('img', {
+  width: '100%',
+  borderRadius: '0.5rem 0.5rem 0.25rem 0.25rem'
+});
+
 const Card = ({ thumbnail, video, duration, date }) => {
   const { goToVideo } = useRoute();
 
   return html`
     <div style=${{
-      borderRadius: '0.5rem',
-      border: `1px solid var(--accent)`,
-      background: 'var(--bg-card)',
       display: 'inline-block',
-      overflow: 'hidden'
+      position: 'relative',
+      fontSize: 0,
     }} onClick=${() => {
       goToVideo(video);
     }}>
-      <img src="${thumbnail}" loading="lazy" style="width: 100%" />
+      <${Image} src="${thumbnail}" loading="lazy" />
       <div style=${{
-        padding: '0 0.5rem 0.5rem',
-        fontSize: '0.8rem',
         display: 'flex',
         gap: '1rem',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginTop: '0.25rem',
       }}>
-        <span>${dateLabel(date)}<//>
-        <span>${duration}<//>
+        <${TertiaryLabel}>${dateLabel(date)}<//>
+        <${PrimaryLabel}>${duration}<//>
       </div>
     </div>
   `;
 };
 
-export const List = () => {
+const Section = ({ title }) => {
+  const color = useTheme();
+
+  return html`<div style=${{
+    textAlign: 'center',
+    margin: '2rem auto 1rem',
+    position: 'relative'
+  }}>
+    <div style=${{
+      position: 'absolute',
+      top: 'calc(50% + 1px)',
+      height: '1px',
+      background: color.secondary,
+      width: '100%',
+      zIndex: 1
+    }} />
+    <span style=${{
+      padding: '0.25rem 0.5rem',
+      fontSize: '0.75rem',
+      borderRadius: '1rem',
+      background: color.secondary,
+      color: color.textOnSecondary,
+      position: 'relative',
+      zIndex: 2
+    }}>${title}</span>
+  </div>`;
+};
+
+export const List = withList(() => {
   const cameraFilter = usePersistedSignal('camera-filter', '*');
   const { list, names, offset, setOffset } = useList();
   const group = 'hour';
@@ -148,28 +180,7 @@ export const List = () => {
         html`<div style="text-align: center; margin: 1rem auto;">There are no clips in this view.</div>` :
         Object.entries(groups).map(([key, list]) => html`
           <div key=${key}>
-            <div style=${{
-              textAlign: 'center',
-              fontWeight: 'bold',
-              margin: '2rem auto 1rem',
-              position: 'relative'
-            }}>
-              <div style=${{
-                position: 'absolute',
-                top: '50%',
-                borderTop: '1px solid var(--accent-light)',
-                width: '100%',
-                zIndex: 1
-              }} />
-              <span style=${{
-                padding: '0.25rem 1rem',
-                border: '1px solid var(--accent)',
-                borderRadius: '1.5rem',
-                background: 'var(--bg-card)',
-                position: 'relative',
-                zIndex: 2
-              }}>${key}</span>
-            </div>
+            <${Section} title=${key} />
 
             <div style=${{
               display: 'grid',
@@ -183,4 +194,4 @@ export const List = () => {
       }
     <//>
   `;
-};
+});

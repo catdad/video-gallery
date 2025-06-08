@@ -1,19 +1,9 @@
 import { html, useMemo } from "../lib/preact.js";
+import { opacity, styled, useTheme } from "./theme.js";
 
 const merge = (...list) => list.reduce((memo, l) => ({ ...memo, ...l }));
 
-const border = '1px solid var(--accent)';
-
-const buttonStyle = {
-  background: 'var(--bg-card)',
-  border,
-  borderLeft: 'none',
-  color: 'white',
-  padding: '0.5rem',
-};
-
 const buttonFirst = {
-  borderLeft: border,
   borderTopLeftRadius: '0.5rem',
   borderBottomLeftRadius: '0.5rem',
 };
@@ -23,9 +13,13 @@ const buttonLast = {
   borderBottomRightRadius: '0.5rem',
 };
 
-const buttonSelected = {
-  background: 'var(--accent-light)',
-};
+const GroupButton = styled('button', ({ color }) => ({
+  border: 'none',
+  background: opacity(color.foreground, 0.125),
+  color: color.foreground,
+  padding: '0.5rem',
+}));
+const StandaloneButton = styled(GroupButton, merge(buttonFirst, buttonLast));
 
 export const Button = ({ onClick, icon, children, disabled = false }) => {
   const className = useMemo(() => `b${Math.random().toString(36).slice(2)}`, []);
@@ -42,21 +36,22 @@ export const Button = ({ onClick, icon, children, disabled = false }) => {
         align-items: center;
       }
     </style>
-    <button
+    <${StandaloneButton}
       className=${className}
       onClick=${onClick}
-      style=${merge(buttonStyle, buttonFirst, buttonLast)}
       disabled=${disabled}
     >
       <span>
         ${icon}
         ${children ? html`<span>${children}</span>` : ''}
       </span>
-    </button>
+    <//>
   `;
 };
 
 export const Toggle = ({ label, options, onChange, value, disabled = false }) => {
+  const color = useTheme();
+
   return html`<div style=${{
     display: 'flex',
     flexDirection: 'row',
@@ -65,17 +60,19 @@ export const Toggle = ({ label, options, onChange, value, disabled = false }) =>
   }}>
     ${label ? html`<span style="margin-right: 0.25rem; font-size: 0.9rem; line-height: 1; padding: 0.5rem 0;">${label}:</span>` : ''}
     ${options.map((option, idx) => html`
-      <button
+      <${GroupButton}
         key=${option.value}
         disabled=${disabled}
         onClick=${() => onChange(option.value)}
         style=${merge(
-          buttonStyle,
           idx === 0 ? buttonFirst : {},
           idx === options.length - 1 ? buttonLast : {},
-          value === option.value ? buttonSelected : {},
+          value === option.value ? {
+            background: color.primary,
+            color: color.textOnPrimary,
+          } : {},
         )}
-      >${option.label || option.value}</button>
+      >${option.label || option.value}<//>
     `)}
   </div>`
 };
