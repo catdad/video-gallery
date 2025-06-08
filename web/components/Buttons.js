@@ -1,5 +1,5 @@
 import { html, useMemo } from "../lib/preact.js";
-import { opacity, styled, useTheme } from "./theme.js";
+import { opacity, styled, useTheme } from "../lib/theme.js";
 
 const merge = (...list) => list.reduce((memo, l) => ({ ...memo, ...l }));
 

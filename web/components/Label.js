@@ -1,4 +1,4 @@
-import { styled } from "./theme.js";
+import { styled } from "../lib/theme.js";
 
 const Label = styled('span', {
   fontSize: '0.75rem',

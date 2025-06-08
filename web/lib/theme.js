@@ -1,4 +1,4 @@
-import { html, createContext, useComputed, useSignal, useContext } from "../lib/preact.js";
+import { html, createContext, useComputed, useSignal, useContext } from "./preact.js";
 
 function hexToRgb(str) {
   let val = String(str).replace(/[^0-9a-f]/gi, '');

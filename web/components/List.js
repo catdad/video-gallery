@@ -3,7 +3,7 @@ import { usePersistedSignal } from "../lib/persisted-signal.js";
 import { useList, withList, format } from "./hook-list.js";
 import { useRoute } from "./hook-router.js";
 import { Button, Toggle } from './Buttons.js';
-import { styled, useTheme } from "./theme.js";
+import { styled, useTheme } from "../lib/theme.js";
 import { PrimaryLabel, TertiaryLabel } from "./Label.js";
 
 const humanize = (offset) => {
