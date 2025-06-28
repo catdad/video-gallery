@@ -101,6 +101,7 @@ const Section = ({ title }) => {
 
 export const List = withList(() => {
   const color = useTheme();
+  const { goToDebug } = useRoute();
   const cameraFilter = usePersistedSignal('camera-filter', '*');
   const { list, names, offset, setOffset } = useList();
   const group = 'hour';
@@ -111,7 +112,7 @@ export const List = withList(() => {
   useEffect(() => {
     const onResize = () => {
       if (listRef.current && filtersRef.current) {
-        listRef.current.style.setProperty('--controls', `${filtersRef.current.offsetHeight}px`);
+        listRef.current.style.setProperty('--controls', `${filtersRef.current.getBoundingClientRect().bottom}px`);
       }
     };
 
@@ -143,9 +144,13 @@ export const List = withList(() => {
     <style>
       .list {
         --controls: 0;
-        margin: var(--controls, 0) auto 1rem;
+        --footer: 2rem;
+
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
         max-width: 1000px;
-        padding: 0 1rem;
+        margin: 0 auto;
       }
 
       .list .filters {
@@ -160,10 +165,27 @@ export const List = withList(() => {
         align-items: center;
         justify-content: center;
 
-        --opacity: 0.8;
+        --opacity: 0.9;
         background: ${opacity(color.background, 'var(--opacity)')};
         box-shadow: 0 0 5px 6px ${opacity(color.background, 'var(--opacity)')};
         backdrop-filter: blur(2px);
+      }
+
+      .list .content {
+        padding-top: var(--controls, 0);
+        padding-bottom: 1rem;
+        flex-grow: 1;
+      }
+
+      .list .footer {
+        max-width: 1000px;
+        height: var(--footer);
+        background: ${opacity(color.primary, 0.5)};
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 5px 5px 0 0;
       }
 
       @media screen and (orientation: landscape) {
@@ -209,22 +231,27 @@ export const List = withList(() => {
         ${!names.value.includes(cameraFilter.value) && cameraFilter.value !== '*'
           ? html`<${Button} onClick=${() => { cameraFilter.value = '*'; }} >reset camera filters<//>` : ''}
       </div>
-      ${Object.keys(groups).length === 0 ?
-        html`<div style="text-align: center; margin: 1rem auto;">There are no clips in this view.</div>` :
-        Object.entries(groups).map(([key, list]) => html`
-          <div key=${key}>
-            <${Section} title=${key} />
+      <div className="content">
+        ${Object.keys(groups).length === 0 ?
+          html`<div style="text-align: center; margin: 1rem auto; flex-grow: 1;">There are no clips in this view.</div>` :
+          Object.entries(groups).map(([key, list]) => html`
+            <div key=${key}>
+              <${Section} title=${key} />
 
-            <div style=${{
-              display: 'grid',
-              gap: '0.75rem',
-              gridTemplateColumns: `repeat(auto-fill, minmax(min(100%/2, max(120px, 100%/5)), 1fr))`,
-            }}>
-              ${list.map(item => html`<${Card} key=${item.video} ...${item} />`)}
+              <div style=${{
+                display: 'grid',
+                gap: '0.75rem',
+                gridTemplateColumns: `repeat(auto-fill, minmax(min(100%/2, max(120px, 100%/5)), 1fr))`,
+              }}>
+                ${list.map(item => html`<${Card} key=${item.video} ...${item} />`)}
+              </div>
             </div>
-          </div>
-        `)
-      }
+          `)
+        }
+      </div>
+      <div className="footer"><${Button} onClick=${() => {
+        goToDebug();
+      }}>debug<//></div>
     <//>
   `;
 });
