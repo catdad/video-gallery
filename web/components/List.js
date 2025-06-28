@@ -1,9 +1,9 @@
-import { html } from "../lib/preact.js";
+import { html, useEffect, useRef } from "../lib/preact.js";
 import { usePersistedSignal } from "../lib/persisted-signal.js";
 import { useList, withList, format } from "./hook-list.js";
 import { useRoute } from "./hook-router.js";
 import { Button, Toggle } from './Buttons.js';
-import { styled, useTheme } from "../lib/theme.js";
+import { styled, useTheme, opacity } from "../lib/theme.js";
 import { PrimaryLabel, TertiaryLabel } from "./Label.js";
 
 const humanize = (offset) => {
@@ -100,9 +100,29 @@ const Section = ({ title }) => {
 };
 
 export const List = withList(() => {
+  const color = useTheme();
   const cameraFilter = usePersistedSignal('camera-filter', '*');
   const { list, names, offset, setOffset } = useList();
   const group = 'hour';
+
+  const listRef = useRef();
+  const filtersRef = useRef();
+
+  useEffect(() => {
+    const onResize = () => {
+      if (listRef.current && filtersRef.current) {
+        listRef.current.style.setProperty('--controls', `${filtersRef.current.offsetHeight}px`);
+      }
+    };
+
+    onResize();
+
+    window.addEventListener('resize', onResize);
+
+    return () => {
+      window.removeEventListener('resize', onResize);
+    };
+  }, [listRef.current, filtersRef.current]);
 
   const groups = list.value.filter(item => {
     if (cameraFilter.value === '*') {
@@ -122,15 +142,28 @@ export const List = withList(() => {
   return html`
     <style>
       .list {
-        margin: 1rem auto;
+        --controls: 0;
+        margin: var(--controls, 0) auto 1rem;
         max-width: 1000px;
         padding: 0 1rem;
       }
 
       .list .filters {
+        position: fixed;
+        z-index: 3;
+        top: -1rem;
+        left: 0;
+        right: 0;
+        padding: 2rem 1rem 1rem;
+
         display: flex;
         align-items: center;
         justify-content: center;
+
+        --opacity: 0.8;
+        background: ${opacity(color.background, 'var(--opacity)')};
+        box-shadow: 0 0 5px 6px ${opacity(color.background, 'var(--opacity)')};
+        backdrop-filter: blur(2px);
       }
 
       @media screen and (orientation: landscape) {
@@ -147,8 +180,8 @@ export const List = withList(() => {
         }
       }
     </style>
-    <div className="list">
-      <div className="filters">
+    <div className="list" ref=${listRef}>
+      <div className="filters" ref=${filtersRef}>
         <${Toggle}
           style="margin-top: 1rem;"
           options=${[

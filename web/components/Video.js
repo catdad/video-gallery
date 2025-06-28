@@ -79,7 +79,7 @@ export const Video = () => {
         left: 0;
         height: 100vh;
         width: 100%;
-        z-index: 3;
+        z-index: 5;
         overflow: hidden;
 
         display: flex;
