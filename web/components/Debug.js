@@ -1,4 +1,4 @@
-import { html, useEffect, useRef, useSignal, useState } from "../lib/preact.js";
+import { html, useEffect, useSignal } from "../lib/preact.js";
 import { Button } from "./Buttons.js";
 import { useRoute } from "./hook-router.js";
 import { Left } from './icons.js';
