@@ -2,7 +2,7 @@ import { html, useEffect, useRef } from "../lib/preact.js";
 import { usePersistedSignal } from "../lib/persisted-signal.js";
 import { useList, withList, format } from "./hook-list.js";
 import { useRoute } from "./hook-router.js";
-import { Button, Toggle } from './Buttons.js';
+import { Button, LinkButton, Toggle } from './Buttons.js';
 import { styled, useTheme, opacity } from "../lib/theme.js";
 import { PrimaryLabel, TertiaryLabel } from "./Label.js";
 
@@ -249,9 +249,12 @@ export const List = withList(() => {
           `)
         }
       </div>
-      <div className="footer"><${Button} onClick=${() => {
-        goToDebug();
-      }}>debug<//></div>
+      <div className="footer">
+        created by catdad
+        (<${LinkButton} onClick=${() => {
+          goToDebug();
+        }}>show debug info<//>)
+      </div>
     <//>
   `;
 });

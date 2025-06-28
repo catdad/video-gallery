@@ -21,6 +21,8 @@ const GroupButton = styled('button', ({ color }) => ({
 }));
 const StandaloneButton = styled(GroupButton, merge(buttonFirst, buttonLast));
 
+export const LinkButton = styled('span', { textDecoration: 'underline', cursor: 'pointer' });
+
 export const Button = ({ onClick, icon, children, disabled = false }) => {
   const className = useMemo(() => `b${Math.random().toString(36).slice(2)}`, []);
 
