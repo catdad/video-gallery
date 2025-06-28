@@ -2,6 +2,7 @@ import { html, useEffect, useRef, useSignal, useState } from "../lib/preact.js";
 import { Button } from "./Buttons.js";
 import { useRoute } from "./hook-router.js";
 import { Left } from './icons.js';
+import { opacity, styled } from "../lib/theme.js";
 
 function getSupportedMediaCodecs() {
   const videoElement = document.createElement('video');
@@ -30,6 +31,16 @@ function getSupportedMediaCodecs() {
   }, {});
 }
 
+const Pre = styled('div', (color) => ({
+  background: opacity(color.primary, '0.15'),
+  padding: '0.5rem',
+  borderRadius: '5px',
+  whiteSpaceCollapse: 'preserve',
+  textWrapMode: 'wrap',
+  fontFamily: 'monospace',
+  margin: '1rem 0'
+}));
+
 export const Debug = () => {
   const { back } = useRoute();
   const codecs = useSignal({});
@@ -40,13 +51,14 @@ export const Debug = () => {
   }, []);
 
   return html`
+  <div style="max-width: 1000px; margin: 1rem auto; padding: 0 1rem;">
     <${Button} onClick=${() => back()} icon=${html`<${Left} height="0.8rem" thickness="3" />`}>
       back
     <//>
-    <pre>${navigator.userAgent}</pre>
-    ${navigator.userAgentData ? html`<pre>
+    <${Pre}>${navigator.userAgent}<//>
+    ${navigator.userAgentData ? html`<${Pre}>
       ${JSON.stringify(navigator.userAgentData, null, 2)}
-    </pre>` : ''}
-    <pre>${JSON.stringify(codecs.value, null, 2)}</pre>
-  `;
+    <//>` : ''}
+    <${Pre}>${JSON.stringify(codecs.value, null, 2)}<//>
+  </div>`;
 };
