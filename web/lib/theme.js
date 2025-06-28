@@ -49,9 +49,9 @@ const themes = {
   monotone: {
     foreground: '#eceff1',
     background: '#06010e',
-    primary: '#3d3945',
-    secondary: '#3d3945',
-    tertiary: '#3d3945'
+    primary: '#4b484f',
+    secondary: '#4b484f',
+    tertiary: '#4b484f'
   }
 };
 
