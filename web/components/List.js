@@ -172,8 +172,7 @@ export const List = withList(() => {
       }
 
       .list .content {
-        padding-top: var(--controls, 0);
-        padding-bottom: 1rem;
+        padding: var(--controls, 0) 1rem 1rem;
         flex-grow: 1;
       }
 
