@@ -33,8 +33,8 @@ function getSupportedMediaCodecs() {
 
 const Pre = styled('div', (color) => ({
   background: opacity(color.primary, '0.15'),
-  padding: '0.5rem',
-  borderRadius: '5px',
+  padding: '0.75rem',
+  borderRadius: '0.75rem',
   whiteSpaceCollapse: 'preserve',
   textWrapMode: 'wrap',
   fontFamily: 'monospace',
