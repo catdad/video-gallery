@@ -6,7 +6,6 @@ import { opacity, styled } from "../lib/theme.js";
 
 function getSupportedMediaCodecs() {
   const videoElement = document.createElement('video');
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)(); // For audio codecs
 
   const videoCodecs = [
     'video/mp4; codecs="avc1.42E01E"',
@@ -32,7 +31,7 @@ function getSupportedMediaCodecs() {
 }
 
 const Pre = styled('div', (color) => ({
-  background: opacity(color.primary, '0.15'),
+  background: opacity(color.foreground, '0.15'),
   padding: '0.75rem',
   borderRadius: '0.75rem',
   whiteSpaceCollapse: 'preserve',
@@ -59,6 +58,8 @@ export const Debug = () => {
     ${navigator.userAgentData ? html`<${Pre}>
       ${JSON.stringify(navigator.userAgentData, null, 2)}
     <//>` : ''}
-    <${Pre}>${JSON.stringify(codecs.value, null, 2)}<//>
+    <${Pre}>
+      ${Object.entries(codecs.value).map(([codec, supported]) => `${codec} - ${supported}`).join('\n')}
+    <//>
   </div>`;
 };
