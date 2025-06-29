@@ -148,7 +148,7 @@ export const List = withList(() => {
 
         display: flex;
         flex-direction: column;
-        min-height: 100vh;
+        min-height: 100dvh;
         max-width: 1000px;
         margin: 0 auto;
       }
@@ -251,7 +251,8 @@ export const List = withList(() => {
       </div>
       <div className="footer">
         created by catdad
-        (<${LinkButton} onClick=${() => {
+        (<${LinkButton} onClick=${(ev) => {
+          ev.preventDefault();
           goToDebug();
         }}>show debug info<//>)
       </div>
