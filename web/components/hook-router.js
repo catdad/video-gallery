@@ -14,6 +14,10 @@ const getHashData = (hash = window.location.hash) => {
     return { route: 'video', hash, data: decode(data)};
   }
 
+  if (/#debug/.test(hash)) {
+    return { route: 'debug', hash };
+  }
+
   return { route: 'list', hash, data: {} };
 };
 
@@ -47,10 +51,15 @@ export const withRouter = Component => ({ children, ...props }) => {
     routeData.value = getHashData(`#video/${encode({ video })}`);
   };
 
+  const goToDebug = () => {
+    routeData.value = getHashData('#debug');
+  };
+
   const api = {
     getRouteData: () => routeData.value,
     goToVideo,
     goToList,
+    goToDebug,
     back: () => {
       if (history.length > 1) {
         history.back()
