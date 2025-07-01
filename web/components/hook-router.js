@@ -9,16 +9,11 @@ const encode = (data) => encodeURIComponent(btoa(JSON.stringify(data)));
 const decode = (str) => JSON.parse(atob(decodeURIComponent(str)));
 
 const getHashData = (hash = window.location.hash) => {
-  if (/#video/.test(hash)) {
-    const data = hash.replace(/^#video\//, '');
-    return { route: 'video', hash, data: decode(data)};
-  }
-
-  if (/#debug/.test(hash)) {
-    return { route: 'debug', hash };
-  }
-
-  return { route: 'list', hash, data: {} };
+  const [route, data] = hash.split('/');
+  return {
+    route: route.slice(1) || 'list',
+    data: data ? decode(data) : undefined
+  };
 };
 
 export const withRouter = Component => ({ children, ...props }) => {
