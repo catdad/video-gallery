@@ -63,11 +63,18 @@ export const Debug = () => {
     <${Pre}>
       ${Object.entries(codecs.value).map(([codec, supported]) => `${codec} - ${supported}`).join('\n')}
     <//>
-    <div>
+    <div style=${{
+      display: 'flex',
+      gap: '0.5rem',
+      lineHeight: '1.5'
+    }}>
       <input type="checkbox" checked=${resizeWidth.value > 0} id="debug-settings-resize" onChange=${(ev) => {
         resizeWidth.value = ev.target.checked ? 800 : 0;
       }} />
-      <label for="debug-settings-resize"> Resize videos when playing</label>
+      <label for="debug-settings-resize">
+        <div style="font-weight: bold">Dynamically resize playback video</div>
+        <div style="max-width: 80ch; font-size: 0.8rem">This helps when streaming high-resolution video on underpowered hardware, only enable this if videos don't play without it</div>
+      </label>
     </div>
   </div>`;
 };
