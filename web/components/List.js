@@ -185,6 +185,7 @@ export const List = withList(() => {
         justify-content: center;
 
         border-radius: 5px 5px 0 0;
+        font-size: 0.85rem;
       }
 
       @media screen and (orientation: landscape) {
