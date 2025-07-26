@@ -48,7 +48,7 @@ const themes = {
   },
   monotone: {
     foreground: '#eceff1',
-    background: '#06010e',
+    background: '#111111', // match home assistant
     primary: '#4b484f',
     secondary: '#4b484f',
     tertiary: '#4b484f'
