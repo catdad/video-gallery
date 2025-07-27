@@ -12,7 +12,8 @@ const getHashData = (hash = window.location.hash) => {
   const [route, data] = hash.split('/');
   return {
     route: route.slice(1) || 'list',
-    data: data ? decode(data) : undefined
+    data: data ? decode(data) : {},
+    hash
   };
 };
 
