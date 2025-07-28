@@ -23,7 +23,7 @@
     "globby": "^14.0.2",
     "lodash": "^4.17.21",
     "quick-lru": "^7.0.0",
-    "video-tools": "https://github.com/catdad/video-tools/tarball/e336316fdaf0f12637404ad7a0e282b5a538b53a",
+    "video-tools": "https://github.com/catdad/video-tools/tarball/9f88d0ea55223cb961e5a61e8ce51d3e51176313",
     "yargs": "^17.7.2"
   },
   "devDependencies": {

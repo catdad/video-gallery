@@ -7,7 +7,7 @@ import { Left, X } from './icons.js';
 
 const agent = navigator.userAgent.toLowerCase();
 // would be great to detect all webviews, but don't know how to do that
-const iOSHomeAssistant =  /iphone|ipad|macintosh/.test(agent) && /homeassistant/.test(agent);
+const iOSHomeAssistant = /iphone|ipad|macintosh/.test(agent) && /homeassistant/.test(agent);
 
 const VideoBlob = ({ url, videoRef }) => {
   const [blobUrl, setBlobUrl] = useState();

@@ -250,11 +250,11 @@ export const List = withList(() => {
         }
       </div>
       <div className="footer">
-        created by catdad
-        (<${LinkButton} onClick=${(ev) => {
+        created by catdad${`\u00A0•\u00A0`}
+        <${LinkButton} onClick=${(ev) => {
           ev.preventDefault();
           goToDebug();
-        }}>show debug info<//>)
+        }}>show debug info<//>
       </div>
     <//>
   `;

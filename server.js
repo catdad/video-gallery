@@ -7,6 +7,7 @@ const { map: videoTools } = require('video-tools');
 
 const { initDir } = require('./lib/init.js');
 const { sync, purge } = require('./lib/sync.js');
+const { resize } = require('./lib/resize.js');
 
 app.register(staticRouter, {
   root: path.resolve(__dirname, 'web'),
@@ -55,6 +56,29 @@ app.get('/api/v1/list', async (req) => {
   const list = await sync({ date: req.query.date || null });
 
   return { list, names: Object.values(nameMap) };
+});
+
+app.get('/api/v1/resize/:width/*', async (req, reply) => {
+  const { width: _width, '*': _file } = req.params;
+  const directory = path.resolve(opts.directory);
+  const file = path.resolve(directory, _file.replace(/^\/+/, ''));
+  const width = Number(_width);
+
+  if (file.indexOf(directory) !== 0 || isNaN(width)) {
+    console.error('BAD_REQUEST', { width, file });
+
+    reply.status(400);
+    reply.send({ error: 'BAD_REQUEST' });
+    return;
+  }
+
+  const { stream, promise } = resize({ file, width });
+
+  reply.header('Content-Type', 'video/mp4');
+  return Promise.all([
+    promise,
+    reply.send(stream),
+  ]);
 });
 
 (async () => {

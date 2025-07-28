@@ -1,4 +1,5 @@
 import { html, useEffect, useSignal } from "../lib/preact.js";
+import { useSettings } from "./hook-settings.js";
 import { Button } from "./Buttons.js";
 import { useRoute } from "./hook-router.js";
 import { Left } from './icons.js';
@@ -43,7 +44,8 @@ const Pre = styled('div', (color) => ({
 export const Debug = () => {
   const { back } = useRoute();
   const codecs = useSignal({});
-
+  const { resizeWidth } = useSettings();
+  
   // actually get the values just once on mount rather than on every render
   useEffect(() => {
     codecs.value = getSupportedMediaCodecs();
@@ -61,5 +63,18 @@ export const Debug = () => {
     <${Pre}>
       ${Object.entries(codecs.value).map(([codec, supported]) => `${codec} - ${supported}`).join('\n')}
     <//>
+    <div style=${{
+      display: 'flex',
+      gap: '0.5rem',
+      lineHeight: '1.5'
+    }}>
+      <input type="checkbox" checked=${resizeWidth.value > 0} id="debug-settings-resize" onChange=${(ev) => {
+        resizeWidth.value = ev.target.checked ? 800 : 0;
+      }} />
+      <label for="debug-settings-resize">
+        <div style="font-weight: bold">Dynamically resize playback video</div>
+        <div style="max-width: 80ch; font-size: 0.8rem">This helps when streaming high-resolution video on underpowered hardware, only enable this if videos don't play without it</div>
+      </label>
+    </div>
   </div>`;
 };
