@@ -1,6 +1,6 @@
 import { html, useEffect, useSignal } from "../lib/preact.js";
 import { useSettings } from "./hook-settings.js";
-import { Button } from "./Buttons.js";
+import { Button, Toggle } from "./Buttons.js";
 import { useRoute } from "./hook-router.js";
 import { Left } from './icons.js';
 import { opacity, styled } from "../lib/theme.js";
@@ -73,7 +73,18 @@ export const Debug = () => {
       }} />
       <label for="debug-settings-resize">
         <div style="font-weight: bold">Dynamically resize playback video</div>
-        <div style="max-width: 80ch; font-size: 0.8rem">This helps when streaming high-resolution video on underpowered hardware, only enable this if videos don't play without it</div>
+        <div style="max-width: 64ch; font-size: 0.8rem">This helps when streaming high-resolution video on underpowered hardware, only enable this if videos don't play without it</div>
+        <div style="justify-self: self-start; margin-top: 0.5rem" onClick=${(ev) => ev.stopPropagation()}>
+          <${Toggle}
+            onChange=${value => {
+              resizeWidth.value = value;
+            }}
+            options=${[{ value: 480 },{ value: 640 }, { value: 800 }]}
+            value=${+resizeWidth.value}
+            disabled=${+resizeWidth.value === 0}
+            label="Width"
+          />
+        </div>  
       </label>
     </div>
   </div>`;
