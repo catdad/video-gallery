@@ -45,10 +45,31 @@ export const Debug = () => {
   const { back } = useRoute();
   const codecs = useSignal({});
   const { resizeWidth } = useSettings();
+  const size = useSignal({
+    width: window.innerWidth,
+    height: window.innerHeight,
+    dpi: window.devicePixelRatio
+  });
   
   // actually get the values just once on mount rather than on every render
   useEffect(() => {
     codecs.value = getSupportedMediaCodecs();
+  }, []);
+
+  useEffect(() => {
+    const onResize = () => {
+      size.value = {
+        width: window.innerWidth,
+        height: window.innerHeight,
+        dpi: window.devicePixelRatio
+      };
+    };
+
+    window.addEventListener('resize', onResize);
+
+    return () => {
+      window.removeEventListener('resize', onResize);
+    };
   }, []);
 
   return html`
@@ -62,6 +83,9 @@ export const Debug = () => {
     <//>` : ''}
     <${Pre}>
       ${Object.entries(codecs.value).map(([codec, supported]) => `${codec} - ${supported}`).join('\n')}
+    <//>
+    <${Pre}>
+      window size: ${size.value.width}px width • ${size.value.height}px height • ${size.value.dpi}x scaling
     <//>
     <div style=${{
       display: 'flex',
