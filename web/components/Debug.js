@@ -1,10 +1,9 @@
 import { html, useEffect, useSignal } from "../lib/preact.js";
 import { useSettings } from "./hook-settings.js";
-import { Button, Toggle } from "./Buttons.js";
 import { useRoute } from "./hook-router.js";
-import { useTheme } from "../lib/theme.js";
+import { opacity, styled } from "./hook-theme.js";
+import { Button, Toggle } from "./Buttons.js";
 import { Left } from './icons.js';
-import { opacity, styled } from "../lib/theme.js";
 
 function getSupportedMediaCodecs() {
   const videoElement = document.createElement('video');
@@ -46,9 +45,10 @@ const Pre = styled(Box, {
 });
 
 export const Debug = () => {
+  const { resizeWidth, themeName } = useSettings();
   const { back } = useRoute();
   const codecs = useSignal({});
-  const { resizeWidth, themeName } = useSettings();
+  
   const size = useSignal({
     width: window.innerWidth,
     height: window.innerHeight,

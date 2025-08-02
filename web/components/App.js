@@ -1,8 +1,8 @@
 import { html } from "../lib/preact.js";
-import { withTheme } from "../lib/theme.js";
 import { Debug } from "./Debug.js";
 import { useRoute, withRouter } from "./hook-router.js";
 import { withSettings } from "./hook-settings.js";
+import { withTheme } from "./hook-theme.js";
 import { List } from "./List.js";
 import { Video } from "./Video.js";
 

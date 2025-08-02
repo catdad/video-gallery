@@ -2,8 +2,8 @@ import { html, useEffect, useRef } from "../lib/preact.js";
 import { usePersistedSignal } from "../lib/persisted-signal.js";
 import { useList, withList, format } from "./hook-list.js";
 import { useRoute } from "./hook-router.js";
+import { useTheme, styled, opacity } from "./hook-theme.js";
 import { Button, LinkButton, Toggle } from './Buttons.js';
-import { styled, useTheme, opacity } from "../lib/theme.js";
 import { PrimaryLabel, TertiaryLabel } from "./Label.js";
 
 const humanize = (offset) => {

@@ -1,7 +1,4 @@
-import { html, createContext, useComputed, useSignal, useContext } from "./preact.js";
-import { useSettings } from "../components/hook-settings.js";
-
-function hexToRgb(str) {
+export function hexToRgb(str) {
   let val = String(str).replace(/[^0-9a-f]/gi, '');
 
   if (val.length < 6) {
@@ -21,7 +18,7 @@ const distance = (rgb1, rgb2) => Math.sqrt(
   Math.pow(rgb2.b - rgb1.b, 2)
 );
 
-const pickContrast = (target, candidate1, candidate2) => {
+export const pickContrast = (target, candidate1, candidate2) => {
   const rgb = hexToRgb(target);
   const rgb1 = hexToRgb(candidate1);
   const rgb2 = hexToRgb(candidate2);
@@ -32,7 +29,7 @@ const pickContrast = (target, candidate1, candidate2) => {
   return distanceTo1 > distanceTo2 ? candidate1 : candidate2;
 };
 
-const themes = {
+export const themes = {
   cmyk: {
     foreground: '#eceff1', // w
     background: '#06010e', // k, indigo based
@@ -61,81 +58,4 @@ const themes = {
     secondary: '#cec3db',
     tertiary: '#cec3db'
   },
-};
-
-export const opacity = (color, alpha) => {
-  const { r, g, b } = hexToRgb(color);
-  return `rgba(${r},${g},${b},${alpha})`;
-};
-
-export const styled = (elem, style) =>
-  ({ style: override = {}, ...props } = {}) => {
-    const color = useTheme();
-    const _style = typeof style === 'function' ? style({ color }) : style;
-
-    return html`<${elem} ...${props} style=${{ ..._style, ...override }} />`;
-  };
-
-const ThemeContext = createContext({});
-
-export const withTheme = Component => props => {
-  const { themeName } = useSettings();
-  const defaults = () => themes[themeName.value] || themes.monotone;
-
-  const foreground = useComputed(() => defaults().foreground);
-  const background = useComputed(() => defaults().background);
-
-  const primary = useComputed(() => defaults().primary);
-  const secondary = useComputed(() => defaults().secondary);
-  const tertiary = useComputed(() => defaults().tertiary);
-
-  const textOnPrimary = useComputed(() => pickContrast(primary.value, foreground.value, background.value));
-  const textOnSecondary = useComputed(() => pickContrast(secondary.value, foreground.value, background.value));
-  const textOnTertiary = useComputed(() => pickContrast(tertiary.value, foreground.value, background.value));
-
-  return html`<style>
-    :root {
-      --foreground: ${foreground.value};
-      --background: ${background.value};
-    }
-
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      color: var(--foreground);
-      background-color: var(--background);
-      font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-  </style>
-  <${ThemeContext.Provider} value=${{
-    foreground, background,
-    primary, secondary, tertiary,
-    textOnPrimary, textOnSecondary, textOnTertiary
-  }}>
-    <${Component} ...${props} />
-  <//>`;
-};
-
-export const useTheme = () => {
-  const {
-    foreground, background,
-    primary, secondary, tertiary,
-    textOnPrimary, textOnSecondary, textOnTertiary
-  } = useContext(ThemeContext);
-
-  return {
-    foreground: foreground.value,
-    background: background.value,
-    primary: primary.value,
-    secondary: secondary.value,
-    tertiary: tertiary.value,
-    textOnPrimary: textOnPrimary.value,
-    textOnSecondary: textOnSecondary.value,
-    textOnTertiary: textOnTertiary.value
-  };
 };
