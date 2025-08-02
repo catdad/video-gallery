@@ -82,15 +82,28 @@ export const Debug = () => {
     <${Button} onClick=${() => back()} icon=${html`<${Left} height="0.8rem" thickness="3" />`}>
       back
     <//>
-    <${Pre}>${navigator.userAgent}<//>
-    <${Pre}>
-      navigator.userAgentData.mobile: ${navigator.userAgentData ? `${navigator.userAgentData.mobile}` : 'unknown'}
-    <//>
-    <${Pre}>
-      ${Object.entries(codecs.value).map(([codec, supported]) => `${codec} - ${supported}`).join('\n')}
-    <//>
-    <${Pre}>
-      window size: ${size.value.width}px width • ${size.value.height}px height • ${size.value.dpi}x scaling
+      
+    <h2>Settings</h2>
+    <${Box} style=${{
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '0.5rem',
+      lineHeight: '1.5'
+    }}>
+      <div style="font-weight: bold">Theme</div>
+      <div style="max-width: 64ch; font-size: 0.8rem">
+        Pick a theme to use for the application
+      </div>
+      <div style="align-self: start; margin-top: 0.5rem">
+        <${Toggle}
+          onChange=${value => {
+            themeName.value = value;
+          }}
+          options=${Object.keys(themes).map(value => ({ value }))}
+          value=${themeName.value}
+          label="Width"
+        />
+      </div>
     <//>
     <${Box} style=${{
       display: 'flex',
@@ -113,26 +126,18 @@ export const Debug = () => {
         />
       </div>
     <//>
-    <${Box} style=${{
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '0.5rem',
-      lineHeight: '1.5'
-    }}>
-      <div style="font-weight: bold">Theme</div>
-      <div style="max-width: 64ch; font-size: 0.8rem">
-        Pick a theme to use for the application
-      </div>
-      <div style="align-self: start; margin-top: 0.5rem">
-        <${Toggle}
-          onChange=${value => {
-            themeName.value = value;
-          }}
-          options=${Object.keys(themes).map(value => ({ value }))}
-          value=${themeName.value}
-          label="Width"
-        />
-      </div>
+    
+    <h2>Debug info</h2>
+    <${Pre}>${navigator.userAgent}<//>
+    <${Pre}>
+      navigator.userAgentData.mobile: ${navigator.userAgentData ? `${navigator.userAgentData.mobile}` : 'unknown'}
     <//>
+    <${Pre}>
+      ${Object.entries(codecs.value).map(([codec, supported]) => `${codec} - ${supported}`).join('\n')}
+    <//>
+    <${Pre}>
+      window size: ${size.value.width}px width • ${size.value.height}px height • ${size.value.dpi}x scaling
+    <//>
+    
   </div>`;
 };
