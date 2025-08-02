@@ -4,6 +4,7 @@ import { useRoute } from "./hook-router.js";
 import { opacity, styled } from "./hook-theme.js";
 import { Button, Toggle } from "./Buttons.js";
 import { Left } from './icons.js';
+import { themes } from "../lib/theme.js";
 
 function getSupportedMediaCodecs() {
   const videoElement = document.createElement('video');
@@ -127,7 +128,7 @@ export const Debug = () => {
           onChange=${value => {
             themeName.value = value;
           }}
-          options=${[{ value: 'monotone' }, { value: 'cmyk' }, { value: 'dark' }, { value: 'light' }]}
+          options=${Object.keys(themes).map(value => ({ value }))}
           value=${themeName.value}
           label="Width"
         />

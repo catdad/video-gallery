@@ -1,12 +1,12 @@
 import { html, createContext, useComputed, useContext } from "../lib/preact.js";
 import { useSettings } from "./hook-settings.js";
-import { hexToRgb, themes, pickContrast } from "../lib/theme.js";
+import { defaultTheme, hexToRgb, themes, pickContrast } from "../lib/theme.js";
 
 const ThemeContext = createContext({});
 
 export const withTheme = Component => props => {
   const { themeName } = useSettings();
-  const defaults = () => themes[themeName.value] || themes.monotone;
+  const defaults = () => themes[themeName.value] || themes[defaultTheme];
 
   const foreground = useComputed(() => defaults().foreground);
   const background = useComputed(() => defaults().background);

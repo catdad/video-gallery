@@ -29,14 +29,9 @@ export const pickContrast = (target, candidate1, candidate2) => {
   return distanceTo1 > distanceTo2 ? candidate1 : candidate2;
 };
 
+export const defaultTheme = 'home assistant dark';
+
 export const themes = {
-  cmyk: {
-    foreground: '#eceff1', // w
-    background: '#06010e', // k, indigo based
-    primary: '#D53C9F', // m
-    secondary: '#FCE54D', // y
-    tertiary: '#6BC9FF', // c
-  },
   dark: {
     foreground: '#eceff1',
     background: '#06010e',
@@ -44,18 +39,25 @@ export const themes = {
     secondary: '#2a2532',
     tertiary: '#2a2532'
   },
-  monotone: {
-    foreground: '#eceff1',
-    background: '#111111', // match home assistant
-    primary: '#4b484f',
-    secondary: '#4b484f',
-    tertiary: '#4b484f'
-  },
   light: {
     foreground: '#111111',
     background: '#eceff1',
     primary: '#cec3db',
     secondary: '#cec3db',
     tertiary: '#cec3db'
+  },
+  'cmyk dark': {
+    foreground: '#eceff1', // w
+    background: '#06010e', // k, indigo based
+    primary: '#D53C9F', // m
+    secondary: '#FCE54D', // y
+    tertiary: '#6BC9FF', // c
+  },
+  'home assistant dark': {
+    foreground: '#eceff1',
+    background: '#111111', // match home assistant
+    primary: '#4b484f',
+    secondary: '#4b484f',
+    tertiary: '#4b484f'
   },
 };
