@@ -31,15 +31,18 @@ function getSupportedMediaCodecs() {
   }, {});
 }
 
-const Pre = styled('div', (color) => ({
-  background: opacity(color.foreground, '0.15'),
+const Box = styled('div', ({ color }) => ({
+  background: opacity(color.foreground, '0.1'),
   padding: '0.75rem',
   borderRadius: '0.75rem',
+  margin: '1rem 0'  
+}));
+
+const Pre = styled(Box, {
   whiteSpaceCollapse: 'preserve',
   textWrapMode: 'wrap',
   fontFamily: 'monospace',
-  margin: '1rem 0'
-}));
+});
 
 export const Debug = () => {
   const { back } = useRoute();
@@ -78,38 +81,35 @@ export const Debug = () => {
       back
     <//>
     <${Pre}>${navigator.userAgent}<//>
-    ${navigator.userAgentData ? html`<${Pre}>
-      ${JSON.stringify(navigator.userAgentData, null, 2)}
-    <//>` : ''}
+    <${Pre}>
+      navigator.userAgentData.mobile: ${navigator.userAgentData ? `${navigator.userAgentData.mobile}` : 'unknown'}
+    <//>
     <${Pre}>
       ${Object.entries(codecs.value).map(([codec, supported]) => `${codec} - ${supported}`).join('\n')}
     <//>
     <${Pre}>
       window size: ${size.value.width}px width • ${size.value.height}px height • ${size.value.dpi}x scaling
     <//>
-    <div style=${{
+    <${Box} style=${{
       display: 'flex',
+      flexDirection: 'column',
       gap: '0.5rem',
       lineHeight: '1.5'
     }}>
-      <input type="checkbox" checked=${resizeWidth.value > 0} id="debug-settings-resize" onChange=${(ev) => {
-        resizeWidth.value = ev.target.checked ? 800 : 0;
-      }} />
-      <label for="debug-settings-resize">
-        <div style="font-weight: bold">Dynamically resize playback video</div>
-        <div style="max-width: 64ch; font-size: 0.8rem">This helps when streaming high-resolution video on underpowered hardware, only enable this if videos don't play without it</div>
-        <div style="justify-self: self-start; margin-top: 0.5rem" onClick=${(ev) => ev.stopPropagation()}>
-          <${Toggle}
-            onChange=${value => {
-              resizeWidth.value = value;
-            }}
-            options=${[{ value: 480 },{ value: 640 }, { value: 800 }]}
-            value=${+resizeWidth.value}
-            disabled=${+resizeWidth.value === 0}
-            label="Width"
-          />
-        </div>  
-      </label>
-    </div>
+      <div style="font-weight: bold">Dynamically resize playback video</div>
+      <div style="max-width: 64ch; font-size: 0.8rem">
+        This helps when streaming high-resolution video on underpowered hardware, only change this value if videos don't play without it
+      </div>
+      <div style="align-self: start; margin-top: 0.5rem">
+        <${Toggle}
+          onChange=${value => {
+            resizeWidth.value = value;
+          }}
+          options=${[{ value: 0, label: 'original (off)' }, { value: 480 }, { value: 640 }, { value: 800 }]}
+          value=${+resizeWidth.value}
+          label="Width"
+        />
+      </div>
+    <//>
   </div>`;
 };
