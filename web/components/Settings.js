@@ -45,7 +45,7 @@ const Pre = styled(Box, {
   fontFamily: 'monospace',
 });
 
-export const Debug = () => {
+export const Settings = () => {
   const { resizeWidth, themeName } = useSettings();
   const { back } = useRoute();
   const codecs = useSignal({});

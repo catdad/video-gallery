@@ -1,5 +1,5 @@
 import { html } from "../lib/preact.js";
-import { Debug } from "./Debug.js";
+import { Settings } from "./Settings.js";
 import { useRoute, withRouter } from "./hook-router.js";
 import { withSettings } from "./hook-settings.js";
 import { withTheme } from "./hook-theme.js";
@@ -18,8 +18,8 @@ const AppInner = () => {
         <${Video} />
         <${List} />
       `;
-    case 'debug':
-      return html`<${Debug} />`;
+    case 'settings':
+      return html`<${Settings} />`;
   }
 
   // TODO this should probably load /web/

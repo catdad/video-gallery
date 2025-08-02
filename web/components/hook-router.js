@@ -47,15 +47,15 @@ export const withRouter = Component => ({ children, ...props }) => {
     routeData.value = getHashData(`#video/${encode({ video })}`);
   };
 
-  const goToDebug = () => {
-    routeData.value = getHashData('#debug');
+  const goToSettings = () => {
+    routeData.value = getHashData('#settings');
   };
 
   const api = {
     getRouteData: () => routeData.value,
     goToVideo,
     goToList,
-    goToDebug,
+    goToSettings,
     back: () => {
       if (history.length > 1) {
         history.back()

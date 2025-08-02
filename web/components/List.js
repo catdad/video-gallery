@@ -101,7 +101,7 @@ const Section = ({ title }) => {
 
 export const List = withList(() => {
   const color = useTheme();
-  const { goToDebug } = useRoute();
+  const { goToSettings } = useRoute();
   const cameraFilter = usePersistedSignal('camera-filter', '*');
   const { list, names, offset, setOffset } = useList();
   const group = 'hour';
@@ -253,7 +253,7 @@ export const List = withList(() => {
         created by catdad${`\u00A0•\u00A0`}
         <${LinkButton} onClick=${(ev) => {
           ev.preventDefault();
-          goToDebug();
+          goToSettings();
         }}>settings<//>
       </div>
     <//>
