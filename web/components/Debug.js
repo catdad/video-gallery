@@ -2,6 +2,7 @@ import { html, useEffect, useSignal } from "../lib/preact.js";
 import { useSettings } from "./hook-settings.js";
 import { Button, Toggle } from "./Buttons.js";
 import { useRoute } from "./hook-router.js";
+import { useTheme } from "../lib/theme.js";
 import { Left } from './icons.js';
 import { opacity, styled } from "../lib/theme.js";
 
@@ -47,7 +48,7 @@ const Pre = styled(Box, {
 export const Debug = () => {
   const { back } = useRoute();
   const codecs = useSignal({});
-  const { resizeWidth } = useSettings();
+  const { resizeWidth, themeName } = useSettings();
   const size = useSignal({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -107,6 +108,27 @@ export const Debug = () => {
           }}
           options=${[{ value: 0, label: 'original (off)' }, { value: 480 }, { value: 640 }, { value: 800 }]}
           value=${+resizeWidth.value}
+          label="Width"
+        />
+      </div>
+    <//>
+    <${Box} style=${{
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '0.5rem',
+      lineHeight: '1.5'
+    }}>
+      <div style="font-weight: bold">Theme</div>
+      <div style="max-width: 64ch; font-size: 0.8rem">
+        Pick a theme to use for the application
+      </div>
+      <div style="align-self: start; margin-top: 0.5rem">
+        <${Toggle}
+          onChange=${value => {
+            themeName.value = value;
+          }}
+          options=${[{ value: 'monotone' }, { value: 'cmyk' }, { value: 'dark' }, { value: 'light' }]}
+          value=${themeName.value}
           label="Width"
         />
       </div>

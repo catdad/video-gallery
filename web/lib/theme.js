@@ -1,4 +1,5 @@
 import { html, createContext, useComputed, useSignal, useContext } from "./preact.js";
+import { useSettings } from "../components/hook-settings.js";
 
 function hexToRgb(str) {
   let val = String(str).replace(/[^0-9a-f]/gi, '');
@@ -52,7 +53,14 @@ const themes = {
     primary: '#4b484f',
     secondary: '#4b484f',
     tertiary: '#4b484f'
-  }
+  },
+  light: {
+    foreground: '#111111',
+    background: '#eceff1',
+    primary: '#cec3db',
+    secondary: '#cec3db',
+    tertiary: '#cec3db'
+  },
 };
 
 export const opacity = (color, alpha) => {
@@ -71,14 +79,15 @@ export const styled = (elem, style) =>
 const ThemeContext = createContext({});
 
 export const withTheme = Component => props => {
-  const defaults = themes.monotone;
+  const { themeName } = useSettings();
+  const defaults = () => themes[themeName.value] || themes.monotone;
 
-  const foreground = useSignal(defaults.foreground);
-  const background = useSignal(defaults.background);
+  const foreground = useComputed(() => defaults().foreground);
+  const background = useComputed(() => defaults().background);
 
-  const primary = useSignal(defaults.primary);
-  const secondary = useSignal(defaults.secondary);
-  const tertiary = useSignal(defaults.tertiary);
+  const primary = useComputed(() => defaults().primary);
+  const secondary = useComputed(() => defaults().secondary);
+  const tertiary = useComputed(() => defaults().tertiary);
 
   const textOnPrimary = useComputed(() => pickContrast(primary.value, foreground.value, background.value));
   const textOnSecondary = useComputed(() => pickContrast(secondary.value, foreground.value, background.value));
