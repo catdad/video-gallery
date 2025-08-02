@@ -128,6 +128,9 @@ export const Debug = () => {
     <//>
     
     <h2>Debug info</h2>
+    <${Pre}>
+      window size: ${size.value.width}px width • ${size.value.height}px height • ${size.value.dpi}x scaling
+    <//>
     <${Pre}>${navigator.userAgent}<//>
     <${Pre}>
       navigator.userAgentData.mobile: ${navigator.userAgentData ? `${navigator.userAgentData.mobile}` : 'unknown'}
@@ -135,9 +138,5 @@ export const Debug = () => {
     <${Pre}>
       ${Object.entries(codecs.value).map(([codec, supported]) => `${codec} - ${supported}`).join('\n')}
     <//>
-    <${Pre}>
-      window size: ${size.value.width}px width • ${size.value.height}px height • ${size.value.dpi}x scaling
-    <//>
-    
   </div>`;
 };
