@@ -254,7 +254,7 @@ export const List = withList(() => {
         <${LinkButton} onClick=${(ev) => {
           ev.preventDefault();
           goToDebug();
-        }}>show debug info<//>
+        }}>settings<//>
       </div>
     <//>
   `;
