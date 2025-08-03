@@ -32,14 +32,14 @@ export const pickContrast = (target, candidate1, candidate2) => {
 export const defaultTheme = 'home assistant dark';
 
 export const themes = {
-  dark: {
+  'dark purple': {
     foreground: '#eceff1',
     background: '#06010e',
     primary: '#633c73',
     secondary: '#2a2532',
     tertiary: '#2a2532'
   },
-  light: {
+  'light purple': {
     foreground: '#111111',
     background: '#eceff1',
     primary: '#cec3db',
