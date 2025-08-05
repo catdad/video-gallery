@@ -2,8 +2,8 @@ import { html, useEffect, useRef } from "../lib/preact.js";
 import { usePersistedSignal } from "../lib/persisted-signal.js";
 import { useList, withList, format } from "./hook-list.js";
 import { useRoute } from "./hook-router.js";
+import { useTheme, styled, opacity } from "./hook-theme.js";
 import { Button, LinkButton, Toggle } from './Buttons.js';
-import { styled, useTheme, opacity } from "../lib/theme.js";
 import { PrimaryLabel, TertiaryLabel } from "./Label.js";
 
 const humanize = (offset) => {
@@ -101,7 +101,7 @@ const Section = ({ title }) => {
 
 export const List = withList(() => {
   const color = useTheme();
-  const { goToDebug } = useRoute();
+  const { goToSettings } = useRoute();
   const cameraFilter = usePersistedSignal('camera-filter', '*');
   const { list, names, offset, setOffset } = useList();
   const group = 'hour';
@@ -253,8 +253,8 @@ export const List = withList(() => {
         created by catdad${`\u00A0•\u00A0`}
         <${LinkButton} onClick=${(ev) => {
           ev.preventDefault();
-          goToDebug();
-        }}>show debug info<//>
+          goToSettings();
+        }}>settings<//>
       </div>
     <//>
   `;
