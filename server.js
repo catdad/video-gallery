@@ -8,6 +8,7 @@ const { map: videoTools } = require('video-tools');
 const { initDir } = require('./lib/init.js');
 const { sync, purge } = require('./lib/sync.js');
 const { resize } = require('./lib/resize.js');
+const { version } = require('./package.json');
 
 app.register(staticRouter, {
   root: path.resolve(__dirname, 'web'),
@@ -32,12 +33,15 @@ app.get('/', (req, reply) => {
   reply.redirect('web/');
 });
 
+app.get('/api/v1/version', () => ({ version }));
+
 app.get('/api/v1/health', async (req, reply) => {
   try {
     const { libVersion, ffmpegVersion, ffprobeVersion } = await videoTools.version({ silent: true });
 
     return {
       healthy: true,
+      version,
       videoTools: libVersion,
       ffmpeg: ffmpegVersion,
       ffprobe: ffprobeVersion
