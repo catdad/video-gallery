@@ -101,7 +101,6 @@ export const Settings = () => {
           }}
           options=${Object.keys(themes).map(value => ({ value }))}
           value=${themeName.value}
-          label="Theme"
         />
       </div>
     <//>
