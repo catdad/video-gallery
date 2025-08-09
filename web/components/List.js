@@ -145,6 +145,7 @@ export const List = withList(() => {
       .list {
         --controls: 0;
         --footer: 2rem;
+        --filter-spacing: 0.6rem;
 
         display: flex;
         flex-direction: column;
@@ -156,10 +157,10 @@ export const List = withList(() => {
       .list .filters {
         position: fixed;
         z-index: 3;
-        top: -1rem;
+        top: calc(var(--filter-spacing) * -1);
         left: 0;
         right: 0;
-        padding: 2rem 1rem 1rem;
+        padding: calc(var(--filter-spacing) * 2) 1rem var(--filter-spacing);
 
         display: flex;
         align-items: center;
@@ -172,7 +173,7 @@ export const List = withList(() => {
       }
 
       .list .content {
-        padding: var(--controls, 0) 1rem 1rem;
+        padding: calc(var(--controls, 0) - 1rem) 1rem 1rem;
         flex-grow: 1;
       }
 
@@ -198,7 +199,7 @@ export const List = withList(() => {
       @media screen and (orientation: portrait) {
         .list .filters {
           flex-direction: column;
-          gap: 1rem;
+          gap: var(--filter-spacing);
         }
       }
     </style>
@@ -233,7 +234,7 @@ export const List = withList(() => {
       </div>
       <div className="content">
         ${Object.keys(groups).length === 0 ?
-          html`<div style="text-align: center; margin: 1rem auto; flex-grow: 1;">There are no clips in this view.</div>` :
+          html`<div style="text-align: center; margin: 2rem auto; flex-grow: 1;">There are no clips in this view.</div>` :
           Object.entries(groups).map(([key, list]) => html`
             <div key=${key}>
               <${Section} title=${key} />
