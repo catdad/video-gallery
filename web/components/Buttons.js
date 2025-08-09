@@ -17,7 +17,7 @@ const GroupButton = styled('button', ({ color }) => ({
   border: 'none',
   background: opacity(color.foreground, 0.125),
   color: color.foreground,
-  padding: '0.5rem',
+  padding: '0.6rem 0.5rem',
 }));
 const StandaloneButton = styled(GroupButton, merge(buttonFirst, buttonLast));
 
@@ -61,7 +61,7 @@ export const Toggle = ({ label, options, onChange, value, disabled = false }) =>
     alignItems: 'stretch',
     opacity: disabled ? 0.5 : 1
   }}>
-    ${label ? html`<span style="margin-right: 0.25rem; font-size: 0.9rem; line-height: 1; padding: 0.5rem 0;">${label}:</span>` : ''}
+    ${label ? html`<span style="margin-right: 0.25rem; font-size: 0.9rem; align-self: center;">${label}:</span>` : ''}
     ${options.map((option, idx) => html`
       <${GroupButton}
         key=${option.value}
