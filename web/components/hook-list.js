@@ -1,6 +1,7 @@
 import { html, batch, createContext, useContext, useEffect, useComputed, useSignal } from "../lib/preact.js";
 import * as urls from './urls.js';
 import { useSettings } from "./hook-settings.js";
+import { formatDuration } from "../lib/time.js";
 
 const formatDateFilter = date => [
   new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date),
@@ -44,8 +45,7 @@ export const withList = Component => ({ children, ...props }) => {
       // TODO resize based on dynamic calculated value
       resizedVideo: urls.resizedVideo(d.file, 600),
       date: new Date(d.date || '1970-01-01'),
-      // TODO use a formatting library for this
-      duration: `${Math.round(d.duration)}s`
+      duration: formatDuration(Math.round(d.duration))
     })).sort((a, b) => b.date - a.date);
   });
 

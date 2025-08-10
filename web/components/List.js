@@ -5,6 +5,7 @@ import { useRoute } from "./hook-router.js";
 import { useTheme, styled, opacity } from "./hook-theme.js";
 import { Button, LinkButton, Toggle } from './Buttons.js';
 import { PrimaryLabel, TertiaryLabel } from "./Label.js";
+import { formatTime } from "../lib/time.js";
 
 const humanize = (offset) => {
   const date = new Date(format(offset));
@@ -14,14 +15,6 @@ const humanize = (offset) => {
 
   return html`<span>${month} ${day}</span>`;
 };
-
-const dateLabel = date => new Intl.DateTimeFormat(navigator.language, {
-  // weekday: 'short',
-  // month: 'short',
-  // day: 'numeric',
-  hour: 'numeric',
-  minute: 'numeric'
-}).format(date);
 
 const groupKeys = {
   hour: date => new Intl.DateTimeFormat(navigator.language, {
@@ -64,7 +57,7 @@ const Card = ({ thumbnail, video, duration, date }) => {
         justifyContent: 'space-between',
         marginTop: '0.25rem',
       }}>
-        <${TertiaryLabel}>${dateLabel(date)}<//>
+        <${TertiaryLabel}>${formatTime(date)}<//>
         <${PrimaryLabel}>${duration}<//>
       </div>
     </div>
