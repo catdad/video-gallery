@@ -2,6 +2,6 @@
 !LICENSE
 !server.js
 !package.json
-!package_lock.json
+!package-lock.json
 !web/
 !lib/
